@@ -44,7 +44,9 @@
 <body>
 	<div class="sidenav">
 		<a href="/">Home</a>
-        <a href="/register">Register</a>
+        {% if user.is_authenticated %}<a href="/logout">Log out</a>{% endif %}
+        {% if user.is_authenticated is False %}<a href="/login">Log in</a>{% endif %}
+        {% if user.is_authenticated is False %}<a href="/register">Register</a>{% endif %}
 	</div>
  
 	<div id="content" name="content" class="main">

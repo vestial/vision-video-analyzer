@@ -5,5 +5,8 @@ Home
 {% endblock %}
 
 {% block content %}
-<h1>Home Page</h1>
+<h1>Home</h1>
+<br>
+{% if user.is_authenticated %}<h3>Hello, {{ user.username }}.</h3>{% endif %}
+
 {% endblock %}
