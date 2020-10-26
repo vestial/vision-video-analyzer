@@ -20,7 +20,11 @@ Home
 
 {% if messages %}
     {% for message in messages %} 
-        {{ message }}
+    <br>
+    <div class="alert alert-{% if messsage.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+        {{ print message }}
+        
+    </div>
     {% endfor %}
 {% endif %}
 

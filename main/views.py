@@ -13,6 +13,7 @@ def home(response):
 			fs = FileSystemStorage()
 			fs.save(uploaded_file.name, uploaded_file)
 		else:
+			print("Upload unsuccessful")
 			messages.error(response, "The uploaded file is not a video!")
 	return render(response, "main/home.html", {})
 
