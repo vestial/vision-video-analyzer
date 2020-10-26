@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Your videos
+{% endblock %}
+
+{% block content %}
+<h1>Your videos</h1>
+<br>
+{% if user.is_authenticated %}<h3>Hi, {{ user.username }}. Here are your videos:</h3>{% endif %} 
+
+{% endblock %}
