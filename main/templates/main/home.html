@@ -5,17 +5,19 @@ Home
 {% endblock %}
 
 {% block content %}
-<h1>Home</h1>
-<br>
+<h2>Home</h2>
 {% if user.is_authenticated %}
-<h3>Hello, {{ user.username }}.</h3>
+<h5>Hello, {{ user.username }}.</h5>
 
-
-<h2>Upload</h2>
+<br>
+<h2>Upload video</h2>
 <form method="post" enctype="multipart/form-data">
 {% csrf_token %}
-<input type="file" name="document">
-<button type="submit">Upload video</button>
+<div class="form-group">
+    <label >Please upload a video to analyze:</label>
+    <input type="file" class="form-control-file" name="document">
+  </div>
+<button class="btn btn-success" type="submit">Upload</button>
 </form>
 
 {% if messages %}
