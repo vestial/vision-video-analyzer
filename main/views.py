@@ -7,6 +7,11 @@ import os
 
 # Create your views here.
 def home(response):
+
+	#Checks if media folder exists
+	if os.path.isdir('./media') == False :
+		os.mkdir('media')
+
 	if response.method == "POST":
 		uploaded_file = response.FILES['document']
 		if uploaded_file.content_type[:5] == "video":
