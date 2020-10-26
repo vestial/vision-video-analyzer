@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.http import request
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+import os
 
 # Create your views here.
 def home(response):
@@ -18,5 +20,8 @@ def home(response):
 	return render(response, "main/home.html", {})
 
 def videos(response):
-	return render(response, "main/videos.html", {})
+	path = settings.MEDIA_ROOT
+	video_list = os.listdir(path)
+	context = {"videos": video_list}
+	return render(response, "main/videos.html", context)
 

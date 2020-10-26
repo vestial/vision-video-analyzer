@@ -8,4 +8,18 @@ Your videos
 <h2>Your videos</h2>
 {% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here are your videos:</h5>{% endif %} 
 
+{% if videos %}
+    {% for video in videos %}
+    <video width="320" height="240" controls>
+        <source src="{{MEDIA_URL}}/media/{{video}}">
+        Your browser does not support the video tag.
+    </video>
+    {% endfor %}
+    {% else %}
+    <br>
+    <div class="alert alert-warning" role="alert">
+        No video available. Please upload a video <a href="/">here</a>.
+    </div>
+{% endif%}
+
 {% endblock %}
