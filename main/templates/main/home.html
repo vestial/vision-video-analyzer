@@ -7,6 +7,20 @@ Home
 {% block content %}
 <h1>Home</h1>
 <br>
-{% if user.is_authenticated %}<h3>Hello, {{ user.username }}.</h3>{% endif %}
+{% if user.is_authenticated %}
+<h3>Hello, {{ user.username }}.</h3>
+
+
+<h2>Upload</h2>
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="file" name="document">
+<button type="submit">Upload video</button>
+</form>
+
+
+
+
+{% endif %}
 
 {% endblock %}
