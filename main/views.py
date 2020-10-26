@@ -6,6 +6,7 @@ from django.core.files.storage import FileSystemStorage
 def home(response):
 	if response.method == "POST":
 		uploaded_file = response.FILES['document']
+		print(uploaded_file.content_type)
 		fs = FileSystemStorage()
 		fs.save(uploaded_file.name, uploaded_file)
 	return render(response, "main/home.html", {})
