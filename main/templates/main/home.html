@@ -18,8 +18,11 @@ Home
 <button type="submit">Upload video</button>
 </form>
 
-
-
+{% if messages %}
+    {% for message in messages %} 
+        {{ message }}
+    {% endfor %}
+{% endif %}
 
 {% endif %}
 
