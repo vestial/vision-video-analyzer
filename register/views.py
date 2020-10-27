@@ -1,8 +1,7 @@
-# views.py
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 
-# Create your views here.
+# Registers a user account and check if it is valid.
 def register(response):
     if response.method == "POST":
         form = RegisterForm(response.POST)

@@ -5,13 +5,14 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 import os
 
-# Create your views here.
+# Home view
 def home(response):
 
 	#Checks if media folder exists
 	if os.path.isdir('./media') == False :
 		os.mkdir('media')
 
+	#Checks the validity of video upload
 	if response.method == "POST":
 		uploaded_file = response.FILES['document']
 		if uploaded_file.content_type[:5] == "video":
@@ -24,6 +25,7 @@ def home(response):
 			messages.error(response, "The uploaded file is not a video!")
 	return render(response, "main/home.html", {})
 
+# Videos view
 def videos(response):
 	path = settings.MEDIA_ROOT
 	video_list = os.listdir(path)
