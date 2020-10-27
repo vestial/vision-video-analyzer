@@ -30,7 +30,10 @@ def home(response):
 # Videos view
 def videos(response):
 	path = os.path.join(settings.MEDIA_ROOT, "videos")
-	video_list = os.listdir(path)
+	video_list = list()
+	allVideos = Video.objects.filter(uploader=response.user)
+	for video in allVideos:
+		video_list.append(video.filename())
 	context = {"videos": video_list}
 	return render(response, "main/videos.html", context)
 
