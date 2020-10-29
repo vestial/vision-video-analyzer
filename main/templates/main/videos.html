@@ -15,16 +15,18 @@ Your videos
 {% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here are your videos:</h5>{% endif %} 
 
 {% if videos %}
-    <div class="card-deck">
-    {% for video in videos %}
-    <div class="card" style="width: 18rem;">
-          <img src="{{MEDIA_URL}}/media/thumbnails/{{video}}.png" class="card-img-top" alt="placeholder">
-        <div class="card-body">
-            <h5 class="card-title">{{ video }}</h5>
-            <a href="{{ video.id }}" class="btn btn-primary">Analyze</a>
+    <div class="container-fluid content-row mt-3">
+      <div class="row">
+        {% for video in videos %}
+        <div class="card mb-3 ml-3" style="width: 18rm;">
+              <img src="{{MEDIA_URL}}/media/thumbnails/{{video}}.png" class="card-img-top" alt="placeholder">
+            <div class="card-body">
+                <h5 class="card-title">{{ video }}</h5>
+                <a href="{{ video.id }}" class="btn btn-primary">Analyze</a>
+            </div>
         </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
+      </div>
     </div>
     {% else %}
     <br>
