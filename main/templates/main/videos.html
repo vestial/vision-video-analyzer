@@ -18,8 +18,8 @@ Your videos
     <div class="container-fluid content-row mt-3">
       <div class="row">
         {% for video in videos %}
-        <div class="card mb-3 ml-3" style="width: 18rm;">
-              <img src="{{MEDIA_URL}}/media/thumbnails/{{video}}.png" class="card-img-top" alt="placeholder">
+        <div class="card mb-3 ml-3" style="width: 320px;">
+              <img style="width: 320px;" src="{{MEDIA_URL}}/media/thumbnails/{{video}}.png" class="card-img-top" alt="placeholder">
             <div class="card-body">
                 <h5 class="card-title">{{ video }}</h5>
                 <a href="{{ video.id }}" class="btn btn-primary">Analyze</a>
