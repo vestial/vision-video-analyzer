@@ -5,6 +5,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from main.models import Video
 import os
+from main.analyzer import get_thumbnail 
 
 # Home view
 def home(response):
@@ -20,7 +21,7 @@ def home(response):
 		if uploaded_file.content_type[:5] == "video":
 			print("upload successful")
 			messages.success(response, "The video was uploaded successfully.")
-			video = Video(name=uploaded_file.name, video=uploaded_file, uploader=response.user)
+			video = Video(name=uploaded_file.name, video=uploaded_file, uploader=response.user, thumbnail=get_thumbnail(uploaded_file))
 			video.save()
 		else:
 			print("Upload unsuccessful")
