@@ -1,17 +1,18 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-Your videos
+Your video
 {% endblock %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Videos</li>
+    <li class="breadcrumb-item" aria-current="page"><a href="/videos">Videos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Video</li>
   </ol>
 </nav>
-<h2>Your videos</h2>
+<h2>Your video</h2>
 {% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here are your videos:</h5>{% endif %} 
 
 {% if videos %}
@@ -22,7 +23,7 @@ Your videos
         <div class="card-body">
             <h5 class="card-title">{{ video }}</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="video" class="btn btn-primary">Analyze</a>
+            <a href="#" class="btn btn-primary">Analyze</a>
         </div>
     </div>
     {% endfor %}
