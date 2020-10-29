@@ -9,25 +9,17 @@ Your video
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Home</a></li>
     <li class="breadcrumb-item" aria-current="page"><a href="/videos">Videos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Video</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ video }}</li>
   </ol>
 </nav>
-<h2>Your video</h2>
-{% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here are your videos:</h5>{% endif %} 
+<h2>{{ video }}</h2>
+{% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here is your video:</h5>{% endif %} 
 
-{% if videos %}
-    <div class="card-deck">
-    {% for video in videos %}
-    <div class="card" style="width: 18rem;">
-          <img src="{{MEDIA_URL}}/media/images/placeholder.png" class="card-img-top" alt="placeholder">
-        <div class="card-body">
-            <h5 class="card-title">{{ video }}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Analyze</a>
-        </div>
-    </div>
-    {% endfor %}
-    </div>
+{% if video %}
+    <video width="320" height="240" controls>
+        <source src="{{MEDIA_URL}}/media/videos/{{video}}">
+        Your browser does not support the video tag.
+    </video>
     {% else %}
     <br>
     <div class="alert alert-warning" role="alert">

@@ -21,8 +21,7 @@ Your videos
           <img src="{{MEDIA_URL}}/media/images/placeholder.png" class="card-img-top" alt="placeholder">
         <div class="card-body">
             <h5 class="card-title">{{ video }}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="video" class="btn btn-primary">Analyze</a>
+            <a href="{{ video.id }}" class="btn btn-primary">Analyze</a>
         </div>
     </div>
     {% endfor %}

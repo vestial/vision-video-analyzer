@@ -33,16 +33,12 @@ def videos(response):
 	video_list = list()
 	allVideos = Video.objects.filter(uploader=response.user)
 	for video in allVideos:
-		video_list.append(video.filename())
+		video_list.append(video)
 	context = {"videos": video_list}
 	return render(response, "main/videos.html", context)
 
 # Video view
-def video(response):
-	path = os.path.join(settings.MEDIA_ROOT, "videos")
-	video_list = list()
-	allVideos = Video.objects.filter(uploader=response.user)
-	for video in allVideos:
-		video_list.append(video.filename())
-	context = {"videos": video_list}
+def video(response, id):
+	vid = Video.objects.filter(id=id).first()
+	context = {"video": vid}
 	return render(response, "main/video.html", context)
