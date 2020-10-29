@@ -5,6 +5,12 @@ Your videos
 {% endblock %}
 
 {% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Videos</li>
+  </ol>
+</nav>
 <h2>Your videos</h2>
 {% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here are your videos:</h5>{% endif %} 
 

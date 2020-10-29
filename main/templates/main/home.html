@@ -5,7 +5,12 @@ Home
 {% endblock %}
 
 {% block content %}
-<h2>Home</h2>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Home</li>
+  </ol>
+</nav>
+<h2>Placeholder</h2>
 {% if user.is_authenticated %}
 <h5>Hello, {{ user.username }}.</h5>
 
