@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import request
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
+from django.utils.safestring import mark_safe
 from django.contrib import messages
 from main.models import Video
 import os
@@ -23,11 +24,11 @@ def home(response):
 		uploaded_file = response.FILES['document']
 		if uploaded_file.content_type[:5] == "video":
 			print("upload successful")
-			messages.success(response, "The video was uploaded successfully.")
 			video = Video(name=uploaded_file.name, video=uploaded_file, uploader=response.user)
 			video.save()
 			video.thumbnail = get_thumbnail(uploaded_file)
 			video.save()
+			messages.success(response, mark_safe("The video was uploaded successfully. Check out the video <a href='/videos/" + str(video.id) +"'>here</a>"))
 		else:
 			print("Upload unsuccessful")
 			messages.error(response, "The uploaded file is not a video!")
