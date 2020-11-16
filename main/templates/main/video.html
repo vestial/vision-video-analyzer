@@ -1,16 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Your video
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item" aria-current="page"><a href="/videos">Videos</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ video }}</li>
   </ol>
 </nav>
-<h2>{{ video }}</h2>
-{% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here is your video:</h5>{% endif %} 
 {% if user.is_authenticated %}
 
 {% if video %}
-    <video width="320" height="240" controls>
-        <source src="{{MEDIA_URL}}/media/videos/{{video}}">
-        Your browser does not support the video tag.
-    </video>
-<div class="container">
+<div class="container no-gutters">
   <div class="row justify-content-between">
     <div class="col-9">
       <div class="embed-responsive embed-responsive-16by9">
@@ -33,21 +38,45 @@
       <hr/>
     </div>
   </div>
-  <row>
-    <col>
-      <h4>Detailed analysis</h4>
-      <h6>Oct 11, 2020</h6>
-    </col>
-  </row>
+    <div class="row mt-4">
+      <div class="col">
+        <h4>{{ video }}</h4>
+        <h6 style="color: #6C757D">Oct 11, 2020</h6>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col">
+        <h4>Detailed analysis</h4>
+        <hr/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h4><strong>Resolution</strong></h4>
+        <div class="row px-3"> 
+          <h6 class="pr-2"><strong>Video value: </strong></h6>
+          <h6>1920 x 1080</h6>
+        </div>
+        <div class="row px-3"> 
+          <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+          <h6>1920 x 1080</h6>
+        </div>
+        <div class="row"> 
+          <div class="col">
+            <h6 class="pr-2"><strong>Suggestions: </strong></h6>
+            <h6>&#9642; Your video is already good.</h6>
+            <h6>&#9642; You can use 1440p or 4k resolution for even better video quality.</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
     {% else %}
     <br>
     <div class="alert alert-warning" role="alert">
         No video available. Please upload a video <a href="/">here</a>.
     </div>
 {% endif%}
-
-{% endif %}
-{% endif %}
-{% endblock %} 
+{% endif%}
+{% endblock %}
