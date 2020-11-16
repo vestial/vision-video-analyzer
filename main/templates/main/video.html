@@ -1,25 +1,46 @@
-{% extends 'main/base.html' %}
-
-{% block title %}
-Your video
-{% endblock %}
-
-{% block content %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-item" aria-current="page"><a href="/videos">Videos</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ video }}</li>
   </ol>
 </nav>
 <h2>{{ video }}</h2>
 {% if user.is_authenticated %}<h5>Hi, {{ user.username }}. Here is your video:</h5>{% endif %} 
+{% if user.is_authenticated %}
 
 {% if video %}
     <video width="320" height="240" controls>
         <source src="{{MEDIA_URL}}/media/videos/{{video}}">
         Your browser does not support the video tag.
     </video>
+<div class="container">
+  <div class="row justify-content-between">
+    <div class="col-9">
+      <div class="embed-responsive embed-responsive-16by9">
+        <video width="320" height="240" controls>
+          <source src="{{MEDIA_URL}}/media/videos/{{video}}">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <div class="col-3">
+      <h4>Summary</h4>
+      <hr/>
+      <h5>Resolution: </h5>
+      <h5>Shutter speed: </h5 >
+      <h5>Frame rate: </h5>
+      <h5>Bit rate: </h5>
+      <h5>Bit depth: </h5>
+      <h5>Sample rate: </h5>
+      <h5>Video length: </h5>
+      <hr/>
+    </div>
+  </div>
+  <row>
+    <col>
+      <h4>Detailed analysis</h4>
+      <h6>Oct 11, 2020</h6>
+    </col>
+  </row>
+</div>
+
     {% else %}
     <br>
     <div class="alert alert-warning" role="alert">
@@ -27,4 +48,6 @@ Your video
     </div>
 {% endif%}
 
-{% endblock %}
+{% endif %}
+{% endif %}
+{% endblock %} 
