@@ -1,9 +1,10 @@
 from django.conf import settings
-from django.http import request
-from django.shortcuts import render
+from django.http import request, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.core.files.storage import FileSystemStorage
 from django.utils.safestring import mark_safe
 from django.contrib import messages
+
 from main.models import Video
 import os
 from main.analyzer import get_thumbnail 
@@ -49,3 +50,11 @@ def video(response, id):
 	vid = Video.objects.filter(id=id).first()
 	context = {"video": vid}
 	return render(response, "main/video.html", context)
+
+def delete(request, id):
+	vid = get_object_or_404(Video, id=id)
+	context = {"video": vid}
+	if request.method == "POST":
+		vid.delete()
+		return HttpResponseRedirect("/videos")
+	return render(request, "main/delete.html", context)
