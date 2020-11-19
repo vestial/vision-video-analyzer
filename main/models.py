@@ -11,6 +11,14 @@ class Video(models.Model):
     video = models.FileField(storage=fs)
     uploader = ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     thumbnail = models.FileField(storage=thumbnails, null=True)
+    date_uploaded = models.DateField(auto_now=True)
+    resolution = models.CharField(max_length=64, blank=True, null=True)
+    shutter_speed = models.CharField(max_length=64, blank=True, null=True)
+    frame_rate = models.CharField(max_length=64, blank=True, null=True)
+    bit_rate = models.CharField(max_length=64, blank=True, null=True)
+    bit_depth = models.CharField(max_length=64, blank=True, null=True)
+    sample_rate = models.CharField(max_length=64, blank=True, null=True)
+    video_length = models.DurationField(blank=True, null=True)
 
     def __str__(self):
         return '%s' % (self.name)
