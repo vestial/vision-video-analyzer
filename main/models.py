@@ -12,13 +12,34 @@ class Video(models.Model):
     uploader = ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     thumbnail = models.FileField(storage=thumbnails, null=True)
     date_uploaded = models.DateField(auto_now=True)
+
+    #Resolution 
     resolution = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    resolution_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
+
+    #Shutter speed
     shutter_speed = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    shutter_speed_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
+
+    #Frame rate
     frame_rate = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    frame_rate_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
+
+    #Bit rate
     bit_rate = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    bit_rate_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
+
+    #Bit depth
     bit_depth = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    bit_depth_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
+
+    #Sample rate
     sample_rate = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    sample_rate_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
+
+    #Video length
     video_length = models.DurationField(blank=True, null=True)
+    video_length_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
 
     def __str__(self):
         return '%s' % (self.name)
