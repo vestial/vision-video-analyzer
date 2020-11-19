@@ -12,12 +12,12 @@ class Video(models.Model):
     uploader = ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     thumbnail = models.FileField(storage=thumbnails, null=True)
     date_uploaded = models.DateField(auto_now=True)
-    resolution = models.CharField(max_length=64, blank=True, null=True)
-    shutter_speed = models.CharField(max_length=64, blank=True, null=True)
-    frame_rate = models.CharField(max_length=64, blank=True, null=True)
-    bit_rate = models.CharField(max_length=64, blank=True, null=True)
-    bit_depth = models.CharField(max_length=64, blank=True, null=True)
-    sample_rate = models.CharField(max_length=64, blank=True, null=True)
+    resolution = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    shutter_speed = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    frame_rate = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    bit_rate = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    bit_depth = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    sample_rate = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
     video_length = models.DurationField(blank=True, null=True)
 
     def __str__(self):
