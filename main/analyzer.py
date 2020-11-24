@@ -36,6 +36,15 @@ def get_frame_rate(video):
 def get_bit_rate(video):
     video_input_path = f'{videos}/{video}'
     bit_rate = subprocess.run(['ffprobe', '-v', '0', '-select_streams', 'a:0', '-show_entries', 'stream=bit_rate',
-                    '-of', 'compact=p=0:nk=1', video_input_path], capture_output=True, text=True, input="Y")
-    rounded_bit_rate = str(np.round(np.divide(int(bit_rate.stdout), 1000))) + " kbps"
+                               '-of', 'compact=p=0:nk=1', video_input_path], capture_output=True, text=True, input="Y")
+    rounded_bit_rate = str(
+        np.round(np.divide(int(bit_rate.stdout), 1000))) + " kbps"
     return rounded_bit_rate
+
+#Get video length using ffprobe. Might need to have a better time format later
+def get_video_length(video):
+    video_input_path = f'{videos}/{video}'
+    video_length = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of',
+                                   'default=noprint_wrappers=1:nokey=1', video_input_path], capture_output=True, text=True, input="Y")
+    rounded_video_length = str(int(np.round(float(video_length.stdout)))) + " seconds"
+    return rounded_video_length

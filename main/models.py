@@ -44,7 +44,7 @@ class Video(models.Model):
     sample_rate_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
 
     #Video length
-    video_length = models.DurationField(blank=True, null=True)
+    video_length = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
     video_length_rating = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
     video_length_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
 
