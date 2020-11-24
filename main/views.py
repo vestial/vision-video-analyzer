@@ -21,6 +21,10 @@ def home(response):
 
 	#Checks the validity of video upload
 	if response.method == "POST":
+		if (response.FILES.get('document') is None):
+			print("No video uploaded")
+			messages.error(response, "Please choose a video to upload!")
+			return render(response, "main/home.html", {})
 		uploaded_file = response.FILES['document']
 		if uploaded_file.content_type[:5] == "video":
 			print("upload successful")
