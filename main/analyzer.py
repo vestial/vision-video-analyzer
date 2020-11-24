@@ -48,6 +48,7 @@ def get_bit_depth(video):
                                  '-show_entries', 'stream=bits_per_raw_sample', video_input_path], capture_output=True, text=True, input="Y")
     return bit_depth.stdout + " bits"
 
+#Get sample rate using ffprobe and convert to kHz
 def get_sample_rate(video):
     video_input_path = f'{videos}/{video}'
     sample_rate = subprocess.run(['ffprobe', '-v', '1', '-of', 'csv=p=0', '-select_streams', 'a:0',
