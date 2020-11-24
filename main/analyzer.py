@@ -6,6 +6,16 @@ import numpy as np
 videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
 
+def analyze_video(video, uploaded_file):
+    video.thumbnail = get_thumbnail(uploaded_file)
+    video.resolution = get_resolution(uploaded_file)
+    video.shutter_speed = get_shutter_speed(uploaded_file)
+    video.frame_rate = get_frame_rate(uploaded_file)
+    video.bit_rate = get_bit_rate(uploaded_file)
+    video.bit_depth = get_bit_depth(uploaded_file)
+    video.sample_rate = get_sample_rate(uploaded_file)
+    video.video_length = get_video_length(uploaded_file)
+
 # Use ffmpeg to get the thumbnail
 def get_thumbnail(video):
     video_input_path = f'{videos}/{video}'
