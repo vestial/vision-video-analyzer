@@ -1,13 +1,12 @@
 from django.conf import settings
-from django.http import request, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.core.files.storage import FileSystemStorage
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 
 from main.models import Video
 import os
-from main.analyzer import analyze_video, get_bit_depth, get_frame_rate, get_resolution, get_sample_rate, get_shutter_speed, get_thumbnail, get_bit_rate, get_video_length 
+from main.analyzer import analyze_video
 
 # Home view
 def home(response):

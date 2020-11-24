@@ -6,6 +6,7 @@ import numpy as np
 videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
 
+#Wrapper for the analysis getters
 def analyze_video(video, uploaded_file):
     video.thumbnail = get_thumbnail(uploaded_file)
     video.resolution = get_resolution(uploaded_file)
