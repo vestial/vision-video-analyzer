@@ -37,11 +37,8 @@ def get_frame_rate(video):
 # Get bit rate from ffprobe and format it to kbps
 def get_bit_rate(video):
     video_input_path = f'{videos}/{video}'
-    bit_rate = subprocess.run(['ffprobe', '-v', '0', '-select_streams', 'a:0', '-show_entries', 'stream=bit_rate',
-                               '-of', 'compact=p=0:nk=1', video_input_path], capture_output=True, text=True, input="Y")
-    rounded_bit_rate = str(
-        np.round(np.divide(int(bit_rate.stdout), 1000))) + " kbps"
-    return rounded_bit_rate
+    bit_rate = subprocess.run(['exiftool', '-s', '-s', '-s', '-avgBitrate', video_input_path], capture_output=True, text=True, input="Y")
+    return bit_rate.stdout
 
 #Get bit depth using ffprobe
 def get_bit_depth(video):
