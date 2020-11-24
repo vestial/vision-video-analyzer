@@ -7,7 +7,7 @@ from django.contrib import messages
 
 from main.models import Video
 import os
-from main.analyzer import get_resolution, get_thumbnail 
+from main.analyzer import get_frame_rate, get_resolution, get_thumbnail 
 
 # Home view
 def home(response):
@@ -29,6 +29,7 @@ def home(response):
 			video.save()
 			video.thumbnail = get_thumbnail(uploaded_file)
 			video.resolution = get_resolution(uploaded_file)
+			video.frame_rate = get_frame_rate(uploaded_file)
 			video.save()
 			messages.success(response, mark_safe("The video was uploaded successfully. Check out the video <a href='/videos/" + str(video.id) +"'>here</a>"))
 		else:
