@@ -47,6 +47,15 @@ def get_bit_depth(video):
     bit_depth = subprocess.run(['ffprobe', '-v', '0', '-of', 'csv=p=0', '-select_streams', 'v:0',
                                  '-show_entries', 'stream=bits_per_raw_sample', video_input_path], capture_output=True, text=True, input="Y")
     return bit_depth.stdout + " bits"
+
+def get_sample_rate(video):
+    video_input_path = f'{videos}/{video}'
+    sample_rate = subprocess.run(['ffprobe', '-v', '1', '-of', 'csv=p=0', '-select_streams', 'a:0',
+                                 '-show_entries', 'stream=sample_rate', video_input_path], capture_output=True, text=True, input="Y")
+    rounded_sample_rate = str(
+        np.round(np.divide(int(sample_rate.stdout), 1000))) + " kHz"
+    return rounded_sample_rate
+
 #Get video length using ffprobe. Might need to have a better time format later
 def get_video_length(video):
     video_input_path = f'{videos}/{video}'
