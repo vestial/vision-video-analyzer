@@ -54,6 +54,8 @@ def delete(request, id):
 	vid = get_object_or_404(Video, id=id)
 	context = {"video": vid}
 	if request.method == "POST":
+		os.remove('./media/thumbnails/' + str(vid) + ".png")
+		vid.video.delete()
 		vid.delete()
 		return HttpResponseRedirect("/videos")
 	return render(request, "main/delete.html", context)
