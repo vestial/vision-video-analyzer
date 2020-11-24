@@ -6,7 +6,7 @@ from django.contrib import messages
 
 from main.models import Video
 import os
-from main.analyzer import analyze_video
+from main.analyzer import analyze_video, get_thumbnail
 
 # Home view
 def home(response):
@@ -28,7 +28,7 @@ def home(response):
 		uploaded_file = response.FILES['document']
 		if uploaded_file.content_type[:5] == "video":
 			print("upload successful")
-			video = Video(name=uploaded_file.name, video=uploaded_file, uploader=response.user)
+			video = Video(name=uploaded_file.name, video=uploaded_file, uploader=response.user, thumbnail=get_thumbnail(uploaded_file))
 			video.save()
 			analyze_video(video, uploaded_file)
 			video.save()
@@ -58,8 +58,9 @@ def delete(request, id):
 	vid = get_object_or_404(Video, id=id)
 	context = {"video": vid}
 	if request.method == "POST":
-		os.remove('./media/thumbnails/' + str(vid) + ".png")
 		vid.video.delete()
+		if (os.path.isfile('./media/videos/' + str(vid)) == False):
+			os.remove('./media/thumbnails/' + str(vid) + ".png")
 		vid.delete()
 		return HttpResponseRedirect("/videos")
 	return render(request, "main/delete.html", context)
