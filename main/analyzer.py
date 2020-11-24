@@ -21,6 +21,8 @@ def get_resolution(video):
                                  'stream=width,height', '-of', 'csv=s=x:p=0 ', video_input_path], capture_output=True, text=True, input="Y")
     return resolution.stdout
 
+def get_shutter_speed(video):
+    return "Unknown"
 # Get fps from ffprobe in frame/sec format. Rounded to make it look better
 def get_frame_rate(video):
     video_input_path = f'{videos}/{video}'

@@ -7,7 +7,7 @@ from django.contrib import messages
 
 from main.models import Video
 import os
-from main.analyzer import get_bit_depth, get_frame_rate, get_resolution, get_sample_rate, get_thumbnail, get_bit_rate, get_video_length 
+from main.analyzer import get_bit_depth, get_frame_rate, get_resolution, get_sample_rate, get_shutter_speed, get_thumbnail, get_bit_rate, get_video_length 
 
 # Home view
 def home(response):
@@ -29,6 +29,7 @@ def home(response):
 			video.save()
 			video.thumbnail = get_thumbnail(uploaded_file)
 			video.resolution = get_resolution(uploaded_file)
+			video.shutter_speed = get_shutter_speed(uploaded_file)
 			video.frame_rate = get_frame_rate(uploaded_file)
 			video.bit_rate = get_bit_rate(uploaded_file)
 			video.bit_depth = get_bit_depth(uploaded_file)
