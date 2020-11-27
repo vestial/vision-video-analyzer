@@ -19,9 +19,9 @@ class Video(models.Model):
     resolution_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
 
     #Shutter speed
-    shutter_speed = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
-    shutter_speed_rating = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
-    shutter_speed_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
+    #shutter_speed = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    #shutter_speed_rating = models.CharField(max_length=64, blank=True, null=True, default="Unknown")
+    #shutter_speed_recommendation = models.TextField(blank=True, null=True, default="No recommendation available.")
 
     #Frame rate
     frame_rate = models.CharField(max_length=64, blank=True, null=True, default="Unknown")

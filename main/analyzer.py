@@ -12,7 +12,7 @@ thumbnails = f'{MEDIA_ROOT}/thumbnails'
 def analyze_video(video, uploaded_file):
     video.thumbnail = get_thumbnail(uploaded_file)
     video.resolution = get_resolution(uploaded_file)
-    video.shutter_speed = get_shutter_speed(uploaded_file)
+    #video.shutter_speed = get_shutter_speed(uploaded_file)
     video.frame_rate = get_frame_rate(uploaded_file)
     video.bit_rate = get_bit_rate(uploaded_file)
     video.bit_depth = get_bit_depth(uploaded_file)
@@ -34,8 +34,8 @@ def get_resolution(video):
                                  'stream=width,height', '-of', 'csv=s=x:p=0 ', video_input_path], capture_output=True, text=True, input="Y")
     return resolution.stdout
 
-def get_shutter_speed(video):
-    return "Unknown"
+#def get_shutter_speed(video):
+    #return "Unknown"
 # Get fps from ffprobe in frame/sec format. Rounded to make it look better
 def get_frame_rate(video):
     video_input_path = f'{videos}/{video}'
@@ -54,7 +54,7 @@ def get_bit_rate(video):
     
     return bit_rate.stdout
 
-#Get bit depth using ffprobe
+#Get bit depth using MediaInfo
 def get_bit_depth(video):
     video_input_path = f'{videos}/{video}'
     media_info = MediaInfo.parse(video_input_path)
