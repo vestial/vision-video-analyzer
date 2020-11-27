@@ -59,7 +59,7 @@ def delete(request, id):
 	context = {"video": vid}
 	if request.method == "POST":
 		vid.video.delete()
-		if (os.path.isfile('./media/videos/' + str(vid)) == False):
+		if (os.path.isfile('./media/videos/' + str(vid.name)) == False):
 			os.remove('./media/thumbnails/' + str(vid) + ".png")
 		vid.delete()
 		return HttpResponseRedirect("/videos")

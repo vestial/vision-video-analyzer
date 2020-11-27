@@ -1,4 +1,6 @@
 from main.models import Video
+from pymediainfo import MediaInfo
+
 from vision_video_analyzer.settings import MEDIA_ROOT
 import subprocess
 import numpy as np
@@ -49,14 +51,15 @@ def get_frame_rate(video):
 def get_bit_rate(video):
     video_input_path = f'{videos}/{video}'
     bit_rate = subprocess.run(['exiftool', '-s', '-s', '-s', '-avgBitrate', video_input_path], capture_output=True, text=True, input="Y")
+    
     return bit_rate.stdout
 
 #Get bit depth using ffprobe
 def get_bit_depth(video):
     video_input_path = f'{videos}/{video}'
-    bit_depth = subprocess.run(['ffprobe', '-v', '0', '-of', 'csv=p=0', '-select_streams', 'v:0',
-                                 '-show_entries', 'stream=bits_per_raw_sample', video_input_path], capture_output=True, text=True, input="Y")
-    return bit_depth.stdout + " bits"
+    media_info = MediaInfo.parse(video_input_path)
+    bit_depth = media_info.video_tracks[0].bit_depth
+    return str(bit_depth) + " bits"
 
 #Get sample rate using ffprobe and convert to kHz
 def get_sample_rate(video):
