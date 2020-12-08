@@ -1,10 +1,11 @@
 from main.models import Video
 from pymediainfo import MediaInfo
-
+from time import sleep
 from vision_video_analyzer.settings import MEDIA_ROOT
 import subprocess
 import numpy as np
 import cv2
+import sys
 import os
 
 videos = f'{MEDIA_ROOT}/videos'
@@ -103,9 +104,20 @@ def get_video_length(video):
 
 def get_shots(video):
     video_input_path = f'{videos}/{video}'
-    shots_output_path = f'{shots}/{video}/'
-    subprocess.run(['scenedetect', '--input', video_input_path, 'detect-content', 'list-scenes', '-o',
-                    shots_output_path, 'save-images', '-o', shots_output_path], capture_output=True, text=True, input="Y")
+    shots_screenshots_output_path = f'{shots}/{video}/'
+    shots_output_path = f'{shots}/{video}/shots/'
+
+    process = subprocess.Popen(['scenedetect', '--input', video_input_path, 'detect-content', 'list-scenes', '-o',
+                                shots_screenshots_output_path, 'save-images', '-o', shots_screenshots_output_path, 'split-video', '-o', shots_output_path], stdout=subprocess.PIPE)
+    while stream_process(process):
+        sleep(0.1)
+
+
+def stream_process(process):
+    go = process.poll() is None
+    for line in process.stdout:
+        print(line)
+    return go
 
 # Get contrast of each shot images by using OpenCV
 
@@ -123,3 +135,10 @@ def get_contrast(video):
             result.append(str(contrast))
 
     print(result)
+
+
+def get_background(video):
+    shots_output_path = f'{shots}/{video}/'
+    backgrounds_output_path = f'{shots}/{video}/backgrounds/'
+    for filename in sorted(os.listdir(shots_output_path)):
+        img = cv2.imread(os.path.join(shots_output_path, filename))
