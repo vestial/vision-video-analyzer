@@ -18,6 +18,8 @@ def home(response):
 		os.mkdir('media/thumbnails')
 	if os.path.isdir('./media/videos') == False :
 		os.mkdir('media/videos')
+	if os.path.isdir('./media/shots') == False :
+		os.mkdir('media/shots')
 
 	#Checks the validity of video upload
 	if response.method == "POST":
