@@ -11,6 +11,7 @@ django-crispy-forms = "*"
 numpy = "*"
 pymediainfo = "*"
 scenedetect = {extras = ["opencv"], version = "*"}
+opencv-python = "*"
 
 [requires]
 python_version = "3.7"

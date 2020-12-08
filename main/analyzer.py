@@ -4,6 +4,8 @@ from pymediainfo import MediaInfo
 from vision_video_analyzer.settings import MEDIA_ROOT
 import subprocess
 import numpy as np
+import cv2
+import os
 
 videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
@@ -22,7 +24,7 @@ def analyze_video(video, uploaded_file):
     video.sample_rate = get_sample_rate(uploaded_file)
     video.video_length = get_video_length(uploaded_file)
     get_shots(uploaded_file)
-
+    get_contrast(uploaded_file)
 # Use ffmpeg to get the thumbnail
 
 
@@ -104,3 +106,20 @@ def get_shots(video):
     shots_output_path = f'{shots}/{video}/'
     subprocess.run(['scenedetect', '--input', video_input_path, 'detect-content', 'list-scenes', '-o',
                     shots_output_path, 'save-images', '-o', shots_output_path], capture_output=True, text=True, input="Y")
+
+# Get contrast of each shot images by using OpenCV
+
+
+def get_contrast(video):
+    shots_output_path = f'{shots}/{video}/'
+
+    result = []
+    for filename in sorted(os.listdir(shots_output_path)):
+        img = cv2.imread(os.path.join(shots_output_path, filename))
+        if img is not None:
+            # Use RMS contrast for contrast measurement
+            img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            contrast = img_grey.std() / 100
+            result.append(str(contrast))
+
+    print(result)
