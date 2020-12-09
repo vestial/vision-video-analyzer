@@ -13,6 +13,7 @@ pymediainfo = "*"
 scenedetect = {extras = ["opencv"], version = "*"}
 opencv-python = "*"
 colr = "*"
+yapf = "*"
 
 [requires]
 python_version = "3.7"

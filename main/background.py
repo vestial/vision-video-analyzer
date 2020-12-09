@@ -1,8 +1,7 @@
-import sys                      # System bindings
-import cv2                      # OpenCV bindings
+import sys  # System bindings
+import cv2  # OpenCV bindings
 import numpy as np
 from collections import Counter
-
 
 
 class BackgroundColorDetector():
@@ -10,7 +9,7 @@ class BackgroundColorDetector():
         self.img = cv2.imread(imageLoc, 1)
         self.manual_count = {}
         self.w, self.h, self.channels = self.img.shape
-        self.total_pixels = self.w*self.h
+        self.total_pixels = self.w * self.h
         self.name = fileName
 
     def count(self):
@@ -35,8 +34,9 @@ class BackgroundColorDetector():
         average_red = red / sample
         average_green = green / sample
         average_blue = blue / sample
-        print("Average background color for "+ self.name + " is: (" + str(average_red) +
-              ", " + str(average_green) + ", " + str(average_blue) + ")" )
+        print("Average background color for " + self.name + " is: (" +
+              str(average_red) + ", " + str(average_green) + ", " +
+              str(average_blue) + ")")
 
     def twenty_most_common(self):
         self.count()
@@ -44,17 +44,18 @@ class BackgroundColorDetector():
 
     def detect(self):
         self.twenty_most_common()
-        self.percentage_of_first = (
-            float(self.number_counter[0][1])/self.total_pixels)
+        self.percentage_of_first = (float(self.number_counter[0][1]) /
+                                    self.total_pixels)
         #print(self.percentage_of_first)
         if self.percentage_of_first > 0.5:
-            print("Background color for " + self.name + " is", self.number_counter[0][0])
+            print("Background color for " + self.name + " is",
+                  self.number_counter[0][0])
         else:
             self.average_colour()
 
 
 if __name__ == "__main__":
-    if (len(sys.argv) != 2):                        # Checks if image was given as cli argument
+    if (len(sys.argv) != 2):  # Checks if image was given as cli argument
         print("error: syntax is 'python main.py /example/image/location.jpg'")
     else:
         BackgroundColor = BackgroundColorDetector(sys.argv[1])

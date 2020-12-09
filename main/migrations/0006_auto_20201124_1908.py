@@ -13,6 +13,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='video',
             name='video_length',
-            field=models.CharField(blank=True, default='Unknown', max_length=64, null=True),
+            field=models.CharField(blank=True,
+                                   default='Unknown',
+                                   max_length=64,
+                                   null=True),
         ),
     ]
