@@ -142,16 +142,26 @@ def get_shots_length(video):
 def get_contrast(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
 
-    result = []
+    contrasts = []
     for filename in sorted(os.listdir(shots_output_path)):
         img = cv2.imread(os.path.join(shots_output_path, filename))
         if img is not None:
             # Use RMS contrast for contrast measurement
             img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             contrast = img_grey.std() / 100
-            result.append(str(contrast))
+            contrasts.append(str(contrast))
 
-    print(result)
+    temp = []
+    results = []
+    for i in range(len(contrasts)):
+        if i == 0 or i % 3 != 0:
+            temp.append(contrasts[i])
+        else:
+            mean_contrast = np.mean(np.array(temp).astype(np.float))
+            results.append(mean_contrast)
+            print("Average contrast: shot " + str(int(i / 3)) + " is " + mean_contrast.astype(str) + " (RMS)")
+            temp = []
+            temp.append(contrasts[i])
 
 
 def get_background(video):
