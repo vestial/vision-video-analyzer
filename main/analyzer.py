@@ -1,3 +1,4 @@
+from main.background import BackgroundColorDetector
 from main.models import Video
 from pymediainfo import MediaInfo
 from time import sleep
@@ -24,8 +25,11 @@ def analyze_video(video, uploaded_file):
     video.bit_depth = get_bit_depth(uploaded_file)
     video.sample_rate = get_sample_rate(uploaded_file)
     video.video_length = get_video_length(uploaded_file)
+
     get_shots(uploaded_file)
     get_contrast(uploaded_file)
+    get_background(uploaded_file)
+    
 # Use ffmpeg to get the thumbnail
 
 
@@ -104,7 +108,7 @@ def get_video_length(video):
 
 def get_shots(video):
     video_input_path = f'{videos}/{video}'
-    shots_screenshots_output_path = f'{shots}/{video}/'
+    shots_screenshots_output_path = f'{shots}/{video}/screenshots/'
     shots_output_path = f'{shots}/{video}/shots/'
 
     process = subprocess.Popen(['scenedetect', '--input', video_input_path, 'detect-content', 'list-scenes', '-o',
@@ -123,7 +127,7 @@ def stream_process(process):
 
 
 def get_contrast(video):
-    shots_output_path = f'{shots}/{video}/'
+    shots_output_path = f'{shots}/{video}/screenshots/'
 
     result = []
     for filename in sorted(os.listdir(shots_output_path)):
@@ -138,7 +142,8 @@ def get_contrast(video):
 
 
 def get_background(video):
-    shots_output_path = f'{shots}/{video}/'
-    backgrounds_output_path = f'{shots}/{video}/backgrounds/'
+    shots_output_path = f'{shots}/{video}/screenshots/'
     for filename in sorted(os.listdir(shots_output_path)):
-        img = cv2.imread(os.path.join(shots_output_path, filename))
+        if filename.endswith(".jpg"):
+            background = BackgroundColorDetector(os.path.join(shots_output_path, filename), filename)
+            background.detect()
