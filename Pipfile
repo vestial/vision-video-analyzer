@@ -12,6 +12,7 @@ numpy = "*"
 pymediainfo = "*"
 scenedetect = {extras = ["opencv"], version = "*"}
 opencv-python = "*"
+colr = "*"
 
 [requires]
 python_version = "3.7"

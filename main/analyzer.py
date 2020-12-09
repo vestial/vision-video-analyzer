@@ -27,6 +27,7 @@ def analyze_video(video, uploaded_file):
     video.video_length = get_video_length(uploaded_file)
 
     get_shots(uploaded_file)
+    get_shots_length(uploaded_file)
     get_contrast(uploaded_file)
     get_background(uploaded_file)
     
@@ -123,8 +124,20 @@ def stream_process(process):
         print(line)
     return go
 
-# Get contrast of each shot images by using OpenCV
 
+def get_shots_length(video):
+    shots_output_path = f'{shots}/{video}/shots/'
+    lengths = []
+    for filename in sorted(os.listdir(shots_output_path)):
+        length = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of',
+                                   'default=noprint_wrappers=1:nokey=1', os.path.join(shots_output_path, filename)], capture_output=True, text=True, input="Y")
+        
+        lengths.append( "Shot: "+ filename + " lasts "+ str(float(length.stdout)) + " seconds")
+    for length in lengths:
+        print(length)
+    
+    
+# Get contrast of each shot images by using OpenCV
 
 def get_contrast(video):
     shots_output_path = f'{shots}/{video}/screenshots/'

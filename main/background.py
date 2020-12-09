@@ -4,6 +4,7 @@ import numpy as np
 from collections import Counter
 
 
+
 class BackgroundColorDetector():
     def __init__(self, imageLoc, fileName):
         self.img = cv2.imread(imageLoc, 1)
@@ -25,7 +26,7 @@ class BackgroundColorDetector():
         red = 0
         green = 0
         blue = 0
-        sample = 10
+        sample = 5
         for top in range(0, sample):
             red += self.number_counter[top][0][0]
             green += self.number_counter[top][0][1]
