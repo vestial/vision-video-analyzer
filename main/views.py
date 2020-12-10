@@ -108,7 +108,14 @@ def shots(response, id):
         with open(os.path.join(shots_output_path, vid.name + ".json"),
                   'w') as json_file:
             json.dump(data_set, json_file)
-
+    else:
+        with open(os.path.join(shots_output_path, vid.name + ".json"),
+                  'r') as json_file:
+            data = json.load(json_file)
+            for length in data['lengths']:
+                shot_lengths.append(length)
+            for contrast in data['contrasts']:
+                shot_contrasts.append(contrast)
     context = {
         "video": vid,
         "lengths": shot_lengths,
