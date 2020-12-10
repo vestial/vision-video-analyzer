@@ -187,6 +187,11 @@ def get_contrast(video):
     for i in range(len(contrasts)):
         if i == 0 or i % 3 != 0:
             temp.append(contrasts[i])
+            if i == len(contrasts) - 1:
+                mean_contrast = np.mean(np.array(temp).astype(np.float))
+                results.append(mean_contrast)
+                print("Average contrast: shot " + str((int(i / 3) + 1)) +
+                      " is " + mean_contrast.astype(str) + " (RMS)")
         else:
             mean_contrast = np.mean(np.array(temp).astype(np.float))
             results.append(mean_contrast)
