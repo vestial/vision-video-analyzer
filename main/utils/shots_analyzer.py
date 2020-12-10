@@ -1,5 +1,4 @@
-from main.background import BackgroundColorDetector
-from main.models import Video
+from main.utils.background import BackgroundColorDetector
 from time import sleep
 from vision_video_analyzer.settings import MEDIA_ROOT
 import subprocess

@@ -1,4 +1,3 @@
-from main.shots_analyzer import analyze_shots
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -8,7 +7,8 @@ from django.contrib import messages
 from main.models import Video
 import os
 import shutil
-from main.analyzer import analyze_video, get_thumbnail
+from main.utils.analyzer import analyze_video, get_thumbnail
+from main.utils.shots_analyzer import analyze_shots
 
 
 # Home view

@@ -1,13 +1,8 @@
-from main.background import BackgroundColorDetector
-from main.models import Video
+
 from pymediainfo import MediaInfo
-from time import sleep
 from vision_video_analyzer.settings import MEDIA_ROOT
 import subprocess
 import numpy as np
-import cv2
-import sys
-import os
 
 videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
