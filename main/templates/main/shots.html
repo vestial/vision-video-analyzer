@@ -1,0 +1,63 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Your video
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item" aria-current="page"><a href="/videos">Videos</a></li>
+    <li class="breadcrumb-item" aria-current="page"><a href ={% url 'video' video.id%}>{{ video }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">shots</li>
+  </ol>
+</nav>
+{% if user.is_authenticated %}
+
+{% if video %}
+<div class="container no-gutters">
+  <div class="row justify-content-between">
+    <div class="col-9">
+      <div class="embed-responsive embed-responsive-16by9">
+        <video width="320" height="240" controls>
+          <source src="{{MEDIA_URL}}/media/videos/{{video}}">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <div class="col-3">
+      <h4>Summary</h4>
+      <hr/>
+      <h5>Resolution: {{video.resolution}}</h5>
+      {#<h5>Shutter speed: {{video.shutter_speed}}</h5 > #}
+      <h5>Frame rate: {{video.frame_rate}} fps</h5>
+      <h5>Bit rate: {{video.bit_rate}}</h5>
+      <h5>Bit depth: {{video.bit_depth}}</h5>
+      <h5>Sample rate: {{video.sample_rate}}</h5>
+      <h5>Video length: {{video.video_length}}</h5>
+      <hr/>
+    </div>
+  </div>
+    <div class="row mt-4">
+      <div class="col">
+        <h4>{{ video }}</h4>
+        <h6 style="color: #6C757D">{{video.date_uploaded}}</h6>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col">
+        <h4>Shots analysis</h4>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>
+    {% else %}
+    <br>
+    <div class="alert alert-warning" role="alert">
+        No video available. Please upload a video <a href="/">here</a>.
+    </div>
+{% endif%}
+{% endif%}
+{% endblock %}

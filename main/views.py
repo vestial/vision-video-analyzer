@@ -82,3 +82,9 @@ def delete(request, id):
         vid.delete()
         return HttpResponseRedirect("/videos")
     return render(request, "main/delete.html", context)
+
+
+def shots(response, id):
+    vid = Video.objects.filter(id=id).first()
+    context = {"video": vid}
+    return render(response, "main/shots.html", context)
