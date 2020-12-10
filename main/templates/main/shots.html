@@ -56,8 +56,17 @@ Your video
         <h4><strong>Shots duration</strong></h4>
         {% for length in lengths %}
         <div class="row px-3"> 
-          <h6 class="pr-2"><strong>Shot length: </strong></h6>
-          <h6>{{length}}</h6>
+          <h6 class="pr-2"><strong>Shot {{ forloop.counter }} length: </strong></h6>
+          <h6>{{length}} seconds</h6>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col">
+        <h4><strong>Shots contrast</strong></h4>
+        {% for contrast in contrasts %}
+        <div class="row px-3"> 
+          <h6 class="pr-2"><strong>Shot {{ forloop.counter }} contrast: </strong></h6>
+          <h6>{{contrast}} (RMS)</h6>
         </div>
         {% endfor %}
       </div>
