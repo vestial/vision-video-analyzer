@@ -58,10 +58,11 @@ def get_shots_length(video):
                                 text=True,
                                 input="Y")
 
-        lengths.append("Shot: " + filename + " lasts " +
-                       str(float(length.stdout)) + " seconds")
-    for length in lengths:
-        print(length)
+        lengths.append(float(length.stdout))
+        print("Shot: " + filename + " lasts " + str(float(length.stdout)) +
+              " seconds")
+
+    return lengths
 
 
 # Get contrast of each shot images by using OpenCV
@@ -94,6 +95,7 @@ def get_contrast(video):
                   mean_contrast.astype(str) + " (RMS)")
             temp = []
             temp.append(contrasts[i])
+    return results
 
 
 # Get average background color for each shot

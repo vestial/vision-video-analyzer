@@ -1,3 +1,4 @@
+from vision_video_analyzer.settings import MEDIA_ROOT
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -7,8 +8,9 @@ from django.contrib import messages
 from main.models import Video
 import os
 import shutil
+import json
 from main.utils.analyzer import analyze_video, get_thumbnail
-from main.utils.shots_analyzer import analyze_shots
+from main.utils.shots_analyzer import analyze_shots, get_contrast, get_shots, get_shots_length
 
 
 # Home view
@@ -87,9 +89,30 @@ def delete(request, id):
 
 def shots(response, id):
     vid = Video.objects.filter(id=id).first()
-    context = {"video": vid}
+    video = vid.video
+    shots_output_path = f'{MEDIA_ROOT}/shots/{vid.name}/'
+    shot_lengths = []
+    shot_contrasts = []
+    shot_background_colors = []
     if response.method == "POST" and os.path.isdir('./media/shots/' +
                                                    str(vid)) == False:
         print("Analyzing shots")
-        analyze_shots(vid.video)
+        get_shots(video)
+        shot_lengths = get_shots_length(video)
+        shot_contrasts = get_contrast(video)
+        data_set = {
+            "lengths": shot_lengths,
+            "contrasts": shot_contrasts,
+            "backgrounds": shot_background_colors
+        }
+        with open(os.path.join(shots_output_path, vid.name + ".json"),
+                  'w') as json_file:
+            json.dump(data_set, json_file)
+
+    context = {
+        "video": vid,
+        "lengths": shot_lengths,
+        "contrasts": shot_contrasts,
+        "backgrounds": shot_background_colors
+    }
     return render(response, "main/shots.html", context)
