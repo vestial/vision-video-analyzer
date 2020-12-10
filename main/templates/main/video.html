@@ -36,6 +36,11 @@ Your video
       <h5>Sample rate: {{video.sample_rate}}</h5>
       <h5>Video length: {{video.video_length}}</h5>
       <hr/>
+      <form action="{% url 'shots' video.id%}" method="POST">
+        {% csrf_token %} 
+        <button class="btn btn-primary" role="button">Analyze shots</button>
+      </form>
+    </div>
     </div>
   </div>
     <div class="row mt-4">

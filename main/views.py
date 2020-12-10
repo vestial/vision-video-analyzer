@@ -1,3 +1,4 @@
+from main.shots_analyzer import analyze_shots
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -87,4 +88,8 @@ def delete(request, id):
 def shots(response, id):
     vid = Video.objects.filter(id=id).first()
     context = {"video": vid}
+    if response.method == "POST" and os.path.isdir('./media/shots/' +
+                                                   str(vid)) == False:
+        print("Analyzing shots")
+        analyze_shots(vid.video)
     return render(response, "main/shots.html", context)
