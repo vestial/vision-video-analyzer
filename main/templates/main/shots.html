@@ -70,6 +70,15 @@ Your video
         </div>
         {% endfor %}
       </div>
+      <div class="col">
+        <h4><strong>Shots background color</strong></h4>
+        {% for background in backgrounds %}
+        <div class="row px-3"> 
+          <h6 class="pr-2"><strong>Shot {{ forloop.counter }} background color: </strong></h6>
+          <h6>{{background}} (RGB)</h6>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </div>

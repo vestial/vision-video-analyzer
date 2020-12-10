@@ -101,8 +101,10 @@ def get_contrast(video):
 # Get average background color for each shot
 def get_background(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
+    results = []
     for filename in sorted(os.listdir(shots_output_path)):
         if filename.endswith(".jpg"):
             background = BackgroundColorDetector(
                 os.path.join(shots_output_path, filename), filename)
-            background.detect()
+            results.append(background.detect())
+    return results

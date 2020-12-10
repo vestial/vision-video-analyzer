@@ -10,7 +10,7 @@ import os
 import shutil
 import json
 from main.utils.analyzer import analyze_video, get_thumbnail
-from main.utils.shots_analyzer import analyze_shots, get_contrast, get_shots, get_shots_length
+from main.utils.shots_analyzer import analyze_shots, get_background, get_contrast, get_shots, get_shots_length
 
 
 # Home view
@@ -100,6 +100,7 @@ def shots(response, id):
         get_shots(video)
         shot_lengths = get_shots_length(video)
         shot_contrasts = get_contrast(video)
+        shot_background_colors = get_background(video)
         data_set = {
             "lengths": shot_lengths,
             "contrasts": shot_contrasts,
@@ -116,6 +117,8 @@ def shots(response, id):
                 shot_lengths.append(length)
             for contrast in data['contrasts']:
                 shot_contrasts.append(contrast)
+            for background in data['backgrounds']:
+                shot_background_colors.append(background)
     context = {
         "video": vid,
         "lengths": shot_lengths,
