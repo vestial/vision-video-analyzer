@@ -101,10 +101,47 @@ def get_contrast(video):
 # Get average background color for each shot
 def get_background(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
+    backgrounds = []
     results = []
+    temp_bg_r = []
+    temp_bg_g = []
+    temp_bg_b = []
     for filename in sorted(os.listdir(shots_output_path)):
         if filename.endswith(".jpg"):
             background = BackgroundColorDetector(
                 os.path.join(shots_output_path, filename), filename)
-            results.append(background.detect())
+            backgrounds.append(background.detect())
+    for i in range(len(backgrounds)):
+        backgrounds[i] = tuple(map(float, backgrounds[i].split(', ')))
+        if i == 0 or i % 3 != 0:
+            temp_bg_r.append(backgrounds[i][0])
+            temp_bg_g.append(backgrounds[i][1])
+            temp_bg_b.append(backgrounds[i][2])
+            if i == len(backgrounds) - 1:
+                mean_bg_r = np.around(np.mean(
+                    np.array(temp_bg_r).astype(np.float)),
+                                      decimals=3)
+                mean_bg_g = np.around(np.mean(
+                    np.array(temp_bg_g).astype(np.float)),
+                                      decimals=3)
+                mean_bg_b = np.around(np.mean(
+                    np.array(temp_bg_b).astype(np.float)),
+                                      decimals=3)
+                results.append(tuple([mean_bg_r, mean_bg_g, mean_bg_b]))
+        else:
+            mean_bg_r = np.around(np.mean(
+                np.array(temp_bg_r).astype(np.float)),
+                                  decimals=3)
+            mean_bg_g = np.around(np.mean(
+                np.array(temp_bg_g).astype(np.float)),
+                                  decimals=3)
+            mean_bg_b = np.around(np.mean(
+                np.array(temp_bg_b).astype(np.float)),
+                                  decimals=3)
+            results.append(tuple([mean_bg_r, mean_bg_g, mean_bg_b]))
+            temp_bg_r, temp_bg_g, temp_bg_b = [], [], []
+            temp_bg_r.append(backgrounds[i][0])
+            temp_bg_g.append(backgrounds[i][1])
+            temp_bg_b.append(backgrounds[i][2])
+
     return results

@@ -37,7 +37,7 @@ class BackgroundColorDetector():
         print("Average background color for " + self.name + " is: (" +
               str(average_red) + ", " + str(average_green) + ", " +
               str(average_blue) + ")")
-        return f'({average_red}, {average_green}, {average_blue})'
+        return f'{average_red}, {average_green}, {average_blue}'
 
     def twenty_most_common(self):
         self.count()
@@ -48,7 +48,7 @@ class BackgroundColorDetector():
         self.percentage_of_first = (float(self.number_counter[0][1]) /
                                     self.total_pixels)
         #print(self.percentage_of_first)
-        color = str(self.number_counter[0][0])
+        color = f'{self.number_counter[0][0][0]}, {self.number_counter[0][0][1]}, {self.number_counter[0][0][2]}'
         if self.percentage_of_first > 0.5:
             print("Background color for " + self.name + " is",
                   self.number_counter[0][0])
