@@ -6,6 +6,7 @@ from django.contrib import messages
 
 from main.models import Video
 import os
+import shutil
 from main.analyzer import analyze_video, get_thumbnail
 
 
@@ -73,7 +74,11 @@ def delete(request, id):
     if request.method == "POST":
         vid.video.delete()
         if (os.path.isfile('./media/videos/' + str(vid)) == False):
-            os.remove('./media/thumbnails/' + str(vid) + ".png")
+            if (os.path.isfile('./media/thumbnails/' + str(vid) +
+                               ".png") == True):
+                os.remove('./media/thumbnails/' + str(vid) + ".png")
+            if (os.path.isdir('./media/shots/' + str(vid)) == True):
+                shutil.rmtree('./media/shots/' + str(vid))
         vid.delete()
         return HttpResponseRedirect("/videos")
     return render(request, "main/delete.html", context)
