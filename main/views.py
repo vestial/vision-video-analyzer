@@ -1,3 +1,4 @@
+from vision_video_analyzer.settings import MEDIA_ROOT
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -7,7 +8,9 @@ from django.contrib import messages
 from main.models import Video
 import os
 import shutil
-from main.analyzer import analyze_video, get_thumbnail
+import json
+from main.utils.analyzer import analyze_video, get_thumbnail
+from main.utils.shots_analyzer import analyze_shots, get_background, get_contrast, get_shots, get_shots_length
 
 
 # Home view
@@ -64,7 +67,9 @@ def videos(response):
 # Video view
 def video(response, id):
     vid = Video.objects.filter(id=id).first()
-    context = {"video": vid}
+    shots = True if os.path.isdir('./media/shots/' +
+                                  str(vid)) == True else False
+    context = {"video": vid, "shots": shots}
     return render(response, "main/video.html", context)
 
 
@@ -82,3 +87,44 @@ def delete(request, id):
         vid.delete()
         return HttpResponseRedirect("/videos")
     return render(request, "main/delete.html", context)
+
+
+def shots(response, id):
+    vid = Video.objects.filter(id=id).first()
+    video = vid.video
+    shots_output_path = f'{MEDIA_ROOT}/shots/{vid.name}/'
+    shot_lengths = []
+    shot_contrasts = []
+    shot_background_colors = []
+    if response.method == "POST" and os.path.isdir('./media/shots/' +
+                                                   str(vid)) == False:
+        print("Analyzing shots")
+        get_shots(video)
+        shot_lengths = get_shots_length(video)
+        shot_contrasts = get_contrast(video)
+        shot_background_colors = get_background(video)
+        data_set = {
+            "lengths": shot_lengths,
+            "contrasts": shot_contrasts,
+            "backgrounds": shot_background_colors
+        }
+        with open(os.path.join(shots_output_path, vid.name + ".json"),
+                  'w') as json_file:
+            json.dump(data_set, json_file)
+    else:
+        with open(os.path.join(shots_output_path, vid.name + ".json"),
+                  'r') as json_file:
+            data = json.load(json_file)
+            for length in data['lengths']:
+                shot_lengths.append(length)
+            for contrast in data['contrasts']:
+                shot_contrasts.append(contrast)
+            for background in data['backgrounds']:
+                shot_background_colors.append(background)
+    context = {
+        "video": vid,
+        "lengths": shot_lengths,
+        "contrasts": shot_contrasts,
+        "backgrounds": shot_background_colors
+    }
+    return render(response, "main/shots.html", context)

@@ -9,7 +9,8 @@ Your video
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Home</a></li>
     <li class="breadcrumb-item" aria-current="page"><a href="/videos">Videos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ video }}</li>
+    <li class="breadcrumb-item" aria-current="page"><a href ={% url 'video' video.id%}>{{ video }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">shots</li>
   </ol>
 </nav>
 {% if user.is_authenticated %}
@@ -36,18 +37,6 @@ Your video
       <h5>Sample rate: {{video.sample_rate}}</h5>
       <h5>Video length: {{video.video_length}}</h5>
       <hr/>
-      <form action="{% url 'shots' video.id%}" method="POST">
-        {% csrf_token %} 
-        {% if shots %}
-          <button class="btn btn-success" role="button">Shots analysis</button>
-          <div class="alert alert-success mt-3" role="alert">
-            The shots have been successfully analyzed!
-          </div>
-        {% else %}
-          <button class="btn btn-primary" role="button">Analyze shots</button>
-        {% endif %}
-      </form>
-    </div>
     </div>
   </div>
     <div class="row mt-4">
@@ -58,31 +47,37 @@ Your video
     </div>
     <div class="row mt-4">
       <div class="col">
-        <h4>Detailed analysis</h4>
+        <h4>Shots analysis</h4>
         <hr/>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <h4><strong>Resolution</strong></h4>
+        <h4><strong>Shots duration</strong></h4>
+        {% for length in lengths %}
         <div class="row px-3"> 
-          <h6 class="pr-2"><strong>Video value: </strong></h6>
-          <h6>{{video.resolution}}</h6>
+          <h6 class="pr-2"><strong>Shot {{ forloop.counter }} length: </strong></h6>
+          <h6>{{length}} seconds</h6>
         </div>
+        {% endfor %}
+      </div>
+      <div class="col">
+        <h4><strong>Shots contrast</strong></h4>
+        {% for contrast in contrasts %}
         <div class="row px-3"> 
-          <h6 class="pr-2"><strong>Recommended value: </strong></h6>
-          <h6>1920 x 1080</h6>
+          <h6 class="pr-2"><strong>Shot {{ forloop.counter }} contrast: </strong></h6>
+          <h6>{{contrast}} (RMS)</h6>
         </div>
+        {% endfor %}
+      </div>
+      <div class="col">
+        <h4><strong>Shots background color</strong></h4>
+        {% for background in backgrounds %}
         <div class="row px-3"> 
-          <h6 class="pr-2"><strong>Rating: </strong></h6>
-          <h6>{{video.resolution_rating}}</h6>
+          <h6 class="pr-2"><strong>Shot {{ forloop.counter }} background color: </strong></h6>
+          <h6>{{background}} (RGB)</h6>
         </div>
-        <div class="row"> 
-          <div class="col">
-            <h6 class="pr-2"><strong>Suggestions: </strong></h6>
-            <h6>{{video.resolution_recommendation}}</h6>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </div>
