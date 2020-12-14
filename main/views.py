@@ -67,7 +67,9 @@ def videos(response):
 # Video view
 def video(response, id):
     vid = Video.objects.filter(id=id).first()
-    context = {"video": vid}
+    shots = True if os.path.isdir('./media/shots/' +
+                                  str(vid)) == True else False
+    context = {"video": vid, "shots": shots}
     return render(response, "main/video.html", context)
 
 

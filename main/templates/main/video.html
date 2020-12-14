@@ -38,7 +38,11 @@ Your video
       <hr/>
       <form action="{% url 'shots' video.id%}" method="POST">
         {% csrf_token %} 
-        <button class="btn btn-primary" role="button">Analyze shots</button>
+        {% if shots %}
+          <button class="btn btn-success" role="button">Shots analysis</button>
+        {% else %}
+          <button class="btn btn-primary" role="button">Analyze shots</button>
+        {% endif %}
       </form>
     </div>
     </div>
