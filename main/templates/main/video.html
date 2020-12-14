@@ -40,6 +40,9 @@ Your video
         {% csrf_token %} 
         {% if shots %}
           <button class="btn btn-success" role="button">Shots analysis</button>
+          <div class="alert alert-success mt-3" role="alert">
+            The shots have been successfully analyzed!
+          </div>
         {% else %}
           <button class="btn btn-primary" role="button">Analyze shots</button>
         {% endif %}
