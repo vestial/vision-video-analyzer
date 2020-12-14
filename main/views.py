@@ -123,8 +123,6 @@ def shots(response, id):
                 shot_background_colors.append(background)
     context = {
         "video": vid,
-        "lengths": shot_lengths,
-        "contrasts": shot_contrasts,
-        "backgrounds": shot_background_colors
+        "data": zip(shot_lengths, shot_contrasts, shot_background_colors)
     }
     return render(response, "main/shots.html", context)
