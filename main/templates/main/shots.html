@@ -51,20 +51,16 @@ Your video
         <hr/>
       </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4 ml-2">
     {%for length, contrast, background, screenshot in data %}
-    <div class="card col-8 mb-4">
-      <div class="row">
-        <div class="col-md-4">
-          <img src="{{MEDIA_URL}}/media/shots/{{video}}/screenshots/{{ screenshot }}" class="card-img" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Shot {{ forloop.counter }}</h5>
-            <p class="card-text"><p class="font-weight-bold">Length:</p> {{ length }} seconds</p>
-            <p class="card-text"><p class="font-weight-bold">Contrast:</p> {{ contrast }} (RMS)</p>
-            <p class="card-text"><p class="font-weight-bold">Background:</p> {{ background }} (RGB)</p>
-          </div>
+    <div class="card-deck">
+      <div class="card mx-4 mb-4" style="width: 16rem;">
+        <img src="{{MEDIA_URL}}/media/shots/{{video}}/screenshots/{{ screenshot }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Shot {{ forloop.counter }}</h5>
+          <div class="card-text"><div class="font-weight-bold">Length:</div> {{ length }} seconds</div>
+          <div class="card-text"><div class="font-weight-bold">Contrast:</div> {{ contrast }} (RMS)</div>
+          <div class="card-text"><div class="font-weight-bold">Background:</div> {{ background }} (RGB)</div>
         </div>
       </div>
     </div>
