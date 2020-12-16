@@ -75,7 +75,7 @@ def get_contrast(video):
         if img is not None:
             # Use RMS contrast for contrast measurement
             img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            contrast = img_grey.std() / 100
+            contrast = img_grey.std(ddof=1) / 100
             contrasts.append(str(contrast))
 
     temp = []
