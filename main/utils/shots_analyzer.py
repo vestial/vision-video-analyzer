@@ -136,3 +136,13 @@ def mean_rgb_calculator(r, g, b):
     mean_g = np.around(np.mean(np.array(g).astype(np.float)), decimals=1)
     mean_b = np.around(np.mean(np.array(b).astype(np.float)), decimals=1)
     return tuple([mean_r, mean_g, mean_b])
+
+
+#Get the second shot screenshot for each shot
+def get_shot_screenshot(video):
+    shots_output_path = f'{shots}/{video}/screenshots/'
+    results = []
+    for filename in sorted(os.listdir(shots_output_path)):
+        if filename.endswith("-02.jpg"):
+            results.append(filename)
+    return results

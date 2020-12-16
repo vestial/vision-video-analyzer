@@ -10,7 +10,7 @@ import os
 import shutil
 import json
 from main.utils.analyzer import analyze_video, get_thumbnail
-from main.utils.shots_analyzer import analyze_shots, get_background, get_contrast, get_shots, get_shots_length
+from main.utils.shots_analyzer import analyze_shots, get_background, get_contrast, get_shot_screenshot, get_shots, get_shots_length
 
 
 # Home view
@@ -96,6 +96,7 @@ def shots(response, id):
     shot_lengths = []
     shot_contrasts = []
     shot_background_colors = []
+    shot_screenshots = []
     if response.method == "POST" and os.path.isdir('./media/shots/' +
                                                    str(vid)) == False:
         print("Analyzing shots")
@@ -103,10 +104,12 @@ def shots(response, id):
         shot_lengths = get_shots_length(video)
         shot_contrasts = get_contrast(video)
         shot_background_colors = get_background(video)
+        shot_screenshots = get_shot_screenshot(video)
         data_set = {
             "lengths": shot_lengths,
             "contrasts": shot_contrasts,
-            "backgrounds": shot_background_colors
+            "backgrounds": shot_background_colors,
+            "screenshots": shot_screenshots
         }
         with open(os.path.join(shots_output_path, vid.name + ".json"),
                   'w') as json_file:
@@ -121,8 +124,13 @@ def shots(response, id):
                 shot_contrasts.append(contrast)
             for background in data['backgrounds']:
                 shot_background_colors.append(background)
+            for screenshot in data['screenshots']:
+                shot_screenshots.append(screenshot)
     context = {
-        "video": vid,
-        "data": zip(shot_lengths, shot_contrasts, shot_background_colors)
+        "video":
+        vid,
+        "data":
+        zip(shot_lengths, shot_contrasts, shot_background_colors,
+            shot_screenshots)
     }
     return render(response, "main/shots.html", context)
