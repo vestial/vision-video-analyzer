@@ -48,40 +48,38 @@ Your video
         {% endif %}
       </form>
     </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <h4>{{ video }}</h4>
+      <h6 style="color: #6C757D">{{video.date_uploaded}}</h6>
     </div>
   </div>
-    <div class="row mt-4">
-      <div class="col">
-        <h4>{{ video }}</h4>
-        <h6 style="color: #6C757D">{{video.date_uploaded}}</h6>
-      </div>
+  <div class="row mt-4">
+    <div class="col">
+      <h4>Detailed analysis</h4>
+      <hr/>
     </div>
-    <div class="row mt-4">
-      <div class="col">
-        <h4>Detailed analysis</h4>
-        <hr/>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4><strong>Resolution</strong></h4>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Video value: </strong></h6>
+        <h6>{{video.resolution}}</h6>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <h4><strong>Resolution</strong></h4>
-        <div class="row px-3"> 
-          <h6 class="pr-2"><strong>Video value: </strong></h6>
-          <h6>{{video.resolution}}</h6>
-        </div>
-        <div class="row px-3"> 
-          <h6 class="pr-2"><strong>Recommended value: </strong></h6>
-          <h6>1920 x 1080</h6>
-        </div>
-        <div class="row px-3"> 
-          <h6 class="pr-2"><strong>Rating: </strong></h6>
-          <h6>{{video.resolution_rating}}</h6>
-        </div>
-        <div class="row"> 
-          <div class="col">
-            <h6 class="pr-2"><strong>Suggestions: </strong></h6>
-            <h6>{{video.resolution_recommendation}}</h6>
-          </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+        <h6>1920 x 1080</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Rating: </strong></h6>
+        <h6>{{video.resolution_rating}}</h6>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Suggestions: </strong></h6>
+          <h6>{{video.resolution_recommendation}}</h6>
         </div>
       </div>
     </div>
