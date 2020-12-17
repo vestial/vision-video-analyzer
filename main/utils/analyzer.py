@@ -42,8 +42,8 @@ def thumbnail_checker(video):
     if thumbnail.detect() == "0, 0, 0" or thumbnail.detect(
     ) == "255, 255, 255":
         subprocess.run([
-            'ffmpeg', '-i', video_input_path, '-ss', '00:00:02.000',
-            '-vframes', '1', img_output_path
+            'ffmpeg', '-i', video_input_path, '-ss', '00:00:03.5', '-vframes',
+            '1', img_output_path
         ],
                        capture_output=True,
                        text=True,

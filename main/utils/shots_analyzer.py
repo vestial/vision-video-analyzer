@@ -27,7 +27,7 @@ def get_shots(video):
 
     process = subprocess.Popen([
         'scenedetect', '--input', video_input_path, 'detect-content', '-t',
-        '40', 'list-scenes', '-o', shots_screenshots_output_path,
+        '37', 'list-scenes', '-o', shots_screenshots_output_path,
         'save-images', '-o', shots_screenshots_output_path, 'split-video',
         '-o', shots_output_path
     ],
