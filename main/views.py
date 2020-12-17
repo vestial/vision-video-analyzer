@@ -9,7 +9,7 @@ from main.models import Video
 import os
 import shutil
 import json
-from main.utils.analyzer import analyze_video, get_thumbnail
+from main.utils.analyzer import analyze_video, get_thumbnail, thumbnail_checker
 from main.utils.shots_analyzer import analyze_shots, get_background, get_contrast, get_shot_screenshot, get_shots, get_shots_length
 
 
@@ -48,6 +48,7 @@ def home(response):
                           thumbnail=get_thumbnail(uploaded_file))
             video.save()
             analyze_video(video, uploaded_file)
+            thumbnail_checker(video)
             video.save()
             messages.success(
                 response,

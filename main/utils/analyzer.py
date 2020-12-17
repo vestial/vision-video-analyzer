@@ -1,6 +1,6 @@
-
 from pymediainfo import MediaInfo
 from vision_video_analyzer.settings import MEDIA_ROOT
+from main.utils.background import BackgroundColorDetector
 import subprocess
 import numpy as np
 
@@ -34,6 +34,22 @@ def get_thumbnail(video):
                    input="Y")
 
 
+#Checks if the thumbnail is pure black or white
+def thumbnail_checker(video):
+    video_input_path = f'{videos}/{video}'
+    img_output_path = f'{thumbnails}/{video}.png'
+    thumbnail = BackgroundColorDetector(img_output_path, video.name + ".png")
+    if thumbnail.detect() == "0, 0, 0" or thumbnail.detect(
+    ) == "255, 255, 255":
+        subprocess.run([
+            'ffmpeg', '-i', video_input_path, '-ss', '00:00:02.000',
+            '-vframes', '1', img_output_path
+        ],
+                       capture_output=True,
+                       text=True,
+                       input="Y")
+
+
 # Use ffprobe to get the video resolution
 def get_resolution(video):
     video_input_path = f'{videos}/{video}'
@@ -58,6 +74,8 @@ def get_frame_rate(video):
                                 text=True,
                                 input="Y")
     fps_string = frame_rate.stdout
+    if fps_string is None:
+        return "Unknown"
     a = int(fps_string.split('/')[0])
     b = int(fps_string.split('/')[1])
     rounded_fps = int(np.round(np.divide(a, b)))
