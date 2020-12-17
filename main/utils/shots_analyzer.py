@@ -1,6 +1,10 @@
 from main.utils.background import BackgroundColorDetector
 from time import sleep
 from vision_video_analyzer.settings import MEDIA_ROOT
+from celery.decorators import task
+from celery.utils.log import get_task_logger
+from celery import shared_task
+
 import subprocess
 import numpy as np
 import cv2
@@ -10,21 +14,25 @@ videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
 shots = f'{MEDIA_ROOT}/shots'
 
+logger = get_task_logger(__name__)
+
 
 # Wrapper for the shot analysis getters
 def analyze_shots(uploaded_file):
-    get_shots(uploaded_file)
+    get_shots.delay(uploaded_file)
     get_shots_length(uploaded_file)
     get_contrast(uploaded_file)
     get_background(uploaded_file)
 
 
 # Use pyscenedetect to split video into shots
+@shared_task
 def get_shots(video):
     video_input_path = f'{videos}/{video}'
     shots_screenshots_output_path = f'{shots}/{video}/screenshots/'
     shots_output_path = f'{shots}/{video}/shots/'
 
+    logger.info("Shots processing")
     process = subprocess.Popen([
         'scenedetect', '--input', video_input_path, 'detect-content', '-t',
         '37', 'list-scenes', '-o', shots_screenshots_output_path,
@@ -34,6 +42,7 @@ def get_shots(video):
                                stdout=subprocess.PIPE)
     while stream_process(process):
         sleep(0.1)
+    logger.info("Shots received")
 
 
 # Prints subprocess output to console
@@ -45,6 +54,7 @@ def stream_process(process):
 
 
 # Use ffprobe to get shots length that were produced by pyscenedtect
+@shared_task
 def get_shots_length(video):
     shots_output_path = f'{shots}/{video}/shots/'
     lengths = []
@@ -66,6 +76,7 @@ def get_shots_length(video):
 
 
 # Get contrast of each shot images by using OpenCV
+@shared_task
 def get_contrast(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
 
@@ -107,6 +118,7 @@ def get_contrast(video):
 
 
 # Get average background color for each shot
+@shared_task
 def get_background(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
     backgrounds = []
@@ -144,6 +156,7 @@ def mean_rgb_calculator(r, g, b):
 
 
 #Get the second shot screenshot for each shot
+@shared_task
 def get_shot_screenshot(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
     results = []

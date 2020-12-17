@@ -1,9 +1,11 @@
+from main.utils.celery_tasks import celery_analyze_shots
 from vision_video_analyzer.settings import MEDIA_ROOT
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.contrib import messages
+from celery import chain
 
 from main.models import Video
 import os
@@ -100,7 +102,7 @@ def delete(request, id):
 
 def shots(response, id):
     vid = Video.objects.filter(id=id).first()
-    video = vid.video
+    video = str(vid.video)
     shots_output_path = f'{MEDIA_ROOT}/shots/{vid.name}/'
     shot_lengths = []
     shot_contrasts = []
@@ -109,11 +111,11 @@ def shots(response, id):
     if response.method == "POST" and os.path.isdir('./media/shots/' +
                                                    str(vid)) == False:
         print("Analyzing shots")
-        get_shots(video)
-        shot_lengths = get_shots_length(video)
-        shot_contrasts = get_contrast(video)
-        shot_background_colors = get_background(video)
-        shot_screenshots = get_shot_screenshot(video)
+        result = celery_analyze_shots(video)
+        shot_lengths = result[0]
+        shot_contrasts = result[1]
+        shot_background_colors = result[2]
+        shot_screenshots = result[3]
         data_set = {
             "lengths": shot_lengths,
             "contrasts": shot_contrasts,
