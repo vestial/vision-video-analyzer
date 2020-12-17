@@ -42,6 +42,7 @@ def home(response):
             return render(response, "main/home.html", {})
         if uploaded_file.content_type[:5] == "video":
             print("upload successful")
+            uploaded_file.name = uploaded_file.name.replace(" ", "_")
             video = Video(name=uploaded_file.name,
                           video=uploaded_file,
                           uploader=response.user,
