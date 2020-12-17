@@ -33,6 +33,13 @@ def home(response):
             messages.error(response, "Please choose a video to upload!")
             return render(response, "main/home.html", {})
         uploaded_file = response.FILES['document']
+        if uploaded_file.name.endswith(".wmv"):
+            print("Upload unsuccessful")
+            messages.error(
+                response,
+                "WMV is currently not supported. Please upload your video in another format."
+            )
+            return render(response, "main/home.html", {})
         if uploaded_file.content_type[:5] == "video":
             print("upload successful")
             video = Video(name=uploaded_file.name,
