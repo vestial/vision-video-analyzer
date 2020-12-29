@@ -12,13 +12,20 @@ shots = f'{MEDIA_ROOT}/shots'
 # Wrapper for the analysis getters
 def analyze_video(video, uploaded_file):
     video.thumbnail = get_thumbnail(uploaded_file)
+    print("Thumbnail analyzed")
     video.resolution = get_resolution(uploaded_file)
+    print("Resolution analyzed")
     #video.shutter_speed = get_shutter_speed(uploaded_file)
     video.frame_rate = get_frame_rate(uploaded_file)
+    print("Frame rate analyzed")
     video.bit_rate = get_bit_rate(uploaded_file)
+    print("Bit rate analyzed")
     video.bit_depth = get_bit_depth(uploaded_file)
+    print("Bit depth analyzed")
     video.sample_rate = get_sample_rate(uploaded_file)
+    print("Sample rate analyzed")
     video.video_length = get_video_length(uploaded_file)
+    print("Video length analyzed")
 
 
 # Use ffmpeg to get the thumbnail
