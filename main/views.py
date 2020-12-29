@@ -50,9 +50,13 @@ def home(response):
                           uploader=response.user,
                           thumbnail=get_thumbnail(uploaded_file))
             video.save()
+            print("Video saved")
             analyze_video(video, uploaded_file)
+            print("Video analyzed")
             thumbnail_checker(video)
+            print("Video thumbnail checked")
             video.save()
+            print("Video successfully uploaded and analyzed")
             messages.success(
                 response,
                 mark_safe(
