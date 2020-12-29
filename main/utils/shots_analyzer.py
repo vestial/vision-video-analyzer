@@ -4,6 +4,7 @@ from vision_video_analyzer.settings import MEDIA_ROOT
 from celery.decorators import task
 from celery.utils.log import get_task_logger
 from celery import shared_task
+from celery_progress.backend import ProgressRecorder
 
 import subprocess
 import numpy as np
@@ -26,12 +27,12 @@ def analyze_shots(uploaded_file):
 
 
 # Use pyscenedetect to split video into shots
-@shared_task
-def get_shots(video):
+@shared_task(bind=True)
+def get_shots(self, video):
     video_input_path = f'{videos}/{video}'
     shots_screenshots_output_path = f'{shots}/{video}/screenshots/'
     shots_output_path = f'{shots}/{video}/shots/'
-
+    #progress_recorder = ProgressRecorder(self)
     logger.info("Shots processing")
     process = subprocess.Popen([
         'scenedetect', '--input', video_input_path, 'detect-content', '-t',

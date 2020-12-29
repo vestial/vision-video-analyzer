@@ -16,6 +16,7 @@ colr = "*"
 yapf = "*"
 celery = "*"
 redis = "*"
+celery-progress = "*"
 
 [requires]
 python_version = "3.7"
