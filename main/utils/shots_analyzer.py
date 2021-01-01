@@ -4,11 +4,13 @@ from vision_video_analyzer.settings import MEDIA_ROOT
 from celery.decorators import task
 from celery.utils.log import get_task_logger
 from celery import shared_task
+from PIL import Image
 
 import subprocess
 import numpy as np
 import cv2
 import os
+import pytesseract
 
 videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
@@ -163,4 +165,24 @@ def get_shot_screenshot(video):
     for filename in sorted(os.listdir(shots_output_path)):
         if filename.endswith("-02.jpg"):
             results.append(filename)
+    return results
+
+
+# List all shots with text
+@shared_task
+def get_shot_text(video):
+    shots_output_path = f'{shots}/{video}/screenshots/'
+    results = []
+    for filename in sorted(os.listdir(shots_output_path)):
+        if filename.endswith(".jpg"):
+            img = Image.open(os.path.join(shots_output_path, filename))
+            if img.getcolors() is not None:
+                #border = pytesseract.image_to_boxes(img).split(" ")
+                #(left, upper, right, lower) = (int(border[1]),int(border[2]) - 8,int(border[3]),int(border[4]) + 8)
+                #im_crop = img.crop((left, upper, right, lower))
+                #colors = sorted(im_crop.getcolors())
+                #hex = ('#%02x%02x%02x' % colors[-2][1])
+                text = pytesseract.image_to_string(img)
+                #print("Color is: " + hex + ". Text is: " + text)
+                print(text)
     return results

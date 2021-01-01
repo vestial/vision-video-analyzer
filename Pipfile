@@ -16,6 +16,8 @@ colr = "*"
 yapf = "*"
 celery = "*"
 redis = "*"
+pytesseract = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
