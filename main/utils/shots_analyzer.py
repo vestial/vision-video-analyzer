@@ -33,11 +33,24 @@ def get_shots(video):
     video_input_path = f'{videos}/{video}'
     shots_screenshots_output_path = f'{shots}/{video}/screenshots/'
     shots_output_path = f'{shots}/{video}/shots/'
-
+    logger.info("Finding threshold")
+    threshold_process = subprocess.Popen([
+        'scenedetect',
+        '--input',
+        video_input_path,
+        '--stats',
+        video_input_path + '.csv',
+        'detect-content',
+        'list-scenes',
+        '-o',
+        shots_screenshots_output_path,
+    ],
+                                         stdout=subprocess.PIPE).wait()
+    threshold = 37  # stub
     logger.info("Shots processing")
     process = subprocess.Popen([
         'scenedetect', '--input', video_input_path, 'detect-content', '-t',
-        '37', 'list-scenes', '-o', shots_screenshots_output_path,
+        str(threshold), 'list-scenes', '-o', shots_screenshots_output_path,
         'save-images', '-o', shots_screenshots_output_path, 'split-video',
         '-o', shots_output_path
     ],
@@ -168,6 +181,7 @@ def get_shot_screenshot(video):
     return results
 
 
+'''
 # List all shots with text
 @shared_task
 def get_shot_text(video):
@@ -186,3 +200,4 @@ def get_shot_text(video):
                 #print("Color is: " + hex + ". Text is: " + text)
                 print(text)
     return results
+'''
