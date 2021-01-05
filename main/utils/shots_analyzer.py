@@ -11,6 +11,7 @@ import numpy as np
 import cv2
 import os
 import pytesseract
+import csv
 
 videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
@@ -33,19 +34,21 @@ def get_shots(video):
     video_input_path = f'{videos}/{video}'
     shots_screenshots_output_path = f'{shots}/{video}/screenshots/'
     shots_output_path = f'{shots}/{video}/shots/'
+    stats_path = video_input_path + '.csv'
     logger.info("Finding threshold")
     threshold_process = subprocess.Popen([
         'scenedetect',
         '--input',
         video_input_path,
         '--stats',
-        video_input_path + '.csv',
+        shots_output_path,
         'detect-content',
         'list-scenes',
         '-o',
         shots_screenshots_output_path,
     ],
                                          stdout=subprocess.PIPE).wait()
+    logger.info(parse_stats(stats_path))
     threshold = 37  # stub
     logger.info("Shots processing")
     process = subprocess.Popen([
@@ -66,6 +69,24 @@ def stream_process(process):
     for line in process.stdout:
         print(line)
     return go
+
+
+# Parse content_val from scenedetect stats to assist in determining optimal threshold value
+def parse_stats(stats):
+    content_vals = []
+    if (stats is None):
+        print("No stats file found")
+    with open(stats) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count < 2:
+                line_count += 1
+            else:
+                content_vals.append(row[2])
+                line_count += 1
+        print(f'Processed {line_count} lines.')
+        return content_vals
 
 
 # Use ffprobe to get shots length that were produced by pyscenedtect
