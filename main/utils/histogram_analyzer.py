@@ -22,7 +22,8 @@ def get_exposure_histogram(video):
     for filename in sorted(os.listdir(shots_output_path)):
         img = cv2.imread(os.path.join(shots_output_path, filename))
         if img is not None:
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+            gray = hsv[:, :, 2]
             hist = cv2.calcHist([gray], [0], None, [256], [0, 256])
             plt.figure()
             plt.title("Grayscale Histogram")
@@ -31,4 +32,4 @@ def get_exposure_histogram(video):
             plt.plot(hist)
             plt.xlim([0, 256])
             plt.savefig(histogram_output_path + filename)
-            logger.info(filename + "Histogram calculated")
+            logger.info(filename + " Histogram calculated")
