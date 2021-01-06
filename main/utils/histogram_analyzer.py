@@ -25,6 +25,18 @@ def get_exposure_histogram(video):
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
             gray = hsv[:, :, 2]
             hist = cv2.calcHist([gray], [0], None, [256], [0, 256])
+            dark_pixels = np.sum(hist[:50])
+            bright_pixels = np.sum(hist[200:255])
+
+            total_pixels = np.sum(hist)
+            logger.info(f'Total pixels: {total_pixels}')
+            bright_threshold = 0.5
+            dark_threshold = 0.4
+
+            if dark_pixels / total_pixels > dark_threshold:
+                logger.info(f'{filename} is underexposed!')
+            if bright_pixels / total_pixels > bright_threshold:
+                logger.info(f'{filename} is overexposed!')
             plt.figure()
             plt.title("Grayscale Histogram")
             plt.xlabel("Bins")
