@@ -30,12 +30,10 @@ def get_exposure_histogram(video):
 
             total_pixels = np.sum(hist)
             logger.info(f'Total pixels: {total_pixels}')
-            bright_threshold = 0.5
-            dark_threshold = 0.4
 
-            if dark_pixels / total_pixels > dark_threshold:
+            if dark_pixels / total_pixels > 0.5:
                 logger.info(f'{filename} is underexposed!')
-            if bright_pixels / total_pixels > bright_threshold:
+            if bright_pixels / total_pixels > 0.5:
                 logger.info(f'{filename} is overexposed!')
             plt.figure()
             plt.title("Grayscale Histogram")
