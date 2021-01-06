@@ -34,14 +34,14 @@ def get_shots(video):
     video_input_path = f'{videos}/{video}'
     shots_screenshots_output_path = f'{shots}/{video}/screenshots/'
     shots_output_path = f'{shots}/{video}/shots/'
-    stats_path = video_input_path + '.csv'
+    stats_path = f'{shots}/{video}/{video}.csv'
     logger.info("Finding threshold")
     threshold_process = subprocess.Popen([
         'scenedetect',
         '--input',
         video_input_path,
         '--stats',
-        shots_output_path,
+        stats_path,
         'detect-content',
         'list-scenes',
         '-o',
@@ -52,7 +52,8 @@ def get_shots(video):
     threshold = 37  # stub
     logger.info("Shots processing")
     process = subprocess.Popen([
-        'scenedetect', '--input', video_input_path, 'detect-content', '-t',
+        'scenedetect', '--input', video_input_path, '--stats', stats_path,
+        'detect-content', '-t',
         str(threshold), 'list-scenes', '-o', shots_screenshots_output_path,
         'save-images', '-o', shots_screenshots_output_path, 'split-video',
         '-o', shots_output_path
@@ -75,7 +76,8 @@ def stream_process(process):
 def parse_stats(stats):
     content_vals = []
     if (stats is None):
-        print("No stats file found")
+        logger.info("No stats file found")
+        return
     with open(stats) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
