@@ -1,3 +1,4 @@
+from main.utils.analyzer import get_frame_rate
 from vision_video_analyzer.settings import MEDIA_ROOT
 from celery.decorators import task
 from celery.utils.log import get_task_logger
@@ -7,10 +8,13 @@ import cv2
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+
 import csv
 
 logger = get_task_logger(__name__)
 shots = f'{MEDIA_ROOT}/shots'
+mpl.use('agg')
 
 
 @shared_task
@@ -86,3 +90,56 @@ def generate_threshold_csv(video):
             writer.writerow(
                 [i + 1, content_val, del_content_val, del_content_val_abs])
             i += 1
+
+
+# Get the optimal threshold from the generated csv file
+def get_threshold(video):
+    csv_path = f'{shots}/{video}/{video}-threshold.csv'
+    thresholds_path = f'{shots}/{video}/thresholds/'
+    if os.path.isdir(thresholds_path) == False:
+        os.mkdir(thresholds_path)
+    change_vals = []
+    borders = []
+    threshold = 30  #Default ContentDetector threshold value
+    threshold_flag = False  #Check if optimal threshold is reached
+    window_size = int(
+        get_frame_rate(video))  #Window size to check validity of border
+    #Get only the absolute content_val changes from the generated csv
+    generate_threshold_csv(video)
+    with open(csv_path, 'r') as file:
+        csv_reader = csv.reader(file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count < 2:
+                line_count += 1
+                continue
+            elif float(row[3]) > threshold:
+                borders.append((int(row[0]), float(row[3])))
+            change_vals.append((int(row[0]), float(row[3])))
+            line_count += 1
+    i = 0
+    for border in borders:
+        region_start = 0 if int(border[0]) - window_size < 1 else int(
+            border[0]) - window_size
+        region_end = len(change_vals) if int(border[0]) + window_size > len(
+            change_vals) - 1 else int(border[0]) + window_size
+
+        region = change_vals[region_start:region_end]
+        region_vals = []
+        for val in region:
+            region_vals.append(val[1])
+        plt.figure()
+        plt.boxplot(region_vals)
+        plt.savefig(f'{thresholds_path}{i}.png')
+        i += 1
+    return change_vals
+
+
+'''
+    change_vals = np.array(change_vals).astype(float)
+    #Generate box plot on the data
+
+    plt.figure()
+    plt.boxplot(change_vals)
+    plt.savefig(threshold_path + '.png')
+'''
