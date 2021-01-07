@@ -99,6 +99,7 @@ def get_threshold(video):
     if os.path.isdir(thresholds_path) == False:
         os.mkdir(thresholds_path)
     change_vals = []
+    raw_change_vals = []
     borders = []
     threshold = 30  #Default ContentDetector threshold value
     threshold_flag = False  #Check if optimal threshold is reached
@@ -116,7 +117,13 @@ def get_threshold(video):
             elif float(row[3]) > threshold:
                 borders.append((int(row[0]), float(row[3])))
             change_vals.append((int(row[0]), float(row[3])))
+            raw_change_vals.append(float(row[3]))
             line_count += 1
+    plt.figure()
+    plt.xlabel("Frame number")
+    plt.ylabel("Absolute content_val difference")
+    plt.plot(raw_change_vals)
+    plt.savefig(f'{csv_path}.png')
     i = 0
     for border in borders:
         region_start = 0 if int(border[0]) - window_size < 1 else int(
@@ -129,6 +136,8 @@ def get_threshold(video):
         for val in region:
             region_vals.append(val[1])
         plt.figure()
+        plt.xlabel("del_content_val_abs")
+        plt.ylabel("Absolute content_val difference")
         plt.boxplot(region_vals)
         plt.savefig(f'{thresholds_path}{i}.png')
         i += 1
