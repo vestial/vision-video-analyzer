@@ -112,6 +112,9 @@ def get_sample_rate(video):
                                  capture_output=True,
                                  text=True,
                                  input="Y")
+
+    if not sample_rate.stdout:
+        return "Unknown"
     rounded_sample_rate = str(
         np.round(np.divide(int(sample_rate.stdout), 1000))) + " kHz"
     return rounded_sample_rate
