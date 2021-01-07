@@ -114,10 +114,11 @@ def get_threshold(video):
                 line_count += 1
                 continue
             elif float(row[3]) > threshold:
-                borders.append((int(row[0]), float(row[3])))
+                borders.append((int(row[0]), float(row[3]), float(row[1])))
             change_vals.append((int(row[0]), float(row[3])))
             raw_change_vals.append(float(row[3]))
             line_count += 1
+    #Generate absolute content_val difference for the whole video
     plt.figure()
     plt.xlabel("Frame number")
     plt.ylabel("Absolute content_val difference")
@@ -125,6 +126,7 @@ def get_threshold(video):
     plt.savefig(f'{csv_path}.png')
     i = 0
     for border in borders:
+        #Define bounding region for each window
         region_start = 0 if int(border[0]) - window_size < 1 else int(
             border[0]) - window_size
         region_end = len(change_vals) if int(border[0]) + window_size > len(
@@ -134,29 +136,25 @@ def get_threshold(video):
         region_vals = []
         for val in region:
             region_vals.append(val[1])
+        #Generate boxplot for each window
         plt.figure()
         plt.xlabel("del_content_val_abs")
         plt.ylabel("Absolute content_val difference")
         plt.boxplot(region_vals)
         boxplot_stats = mpl.cbook.boxplot_stats(region_vals)
         upper_whisker = next(item for item in boxplot_stats).get('whishi')
+        #Checks if border is real (not within normal distribution of the box plot)
         if border[1] <= upper_whisker:
             borders.remove(border)
         plt.savefig(f'{thresholds_path}{i}.png')
         i += 1
     border_thresholds = []
     for border in borders:
-        border_thresholds.append(border[1])
+        border_thresholds.append(border[2])
+    del border_thresholds[
+        1::
+        2]  #Prune odd content_val to prevent absolute negative del_content_val inclusion
     threshold = min(border_thresholds)
+    logger.info(border_thresholds)
     logger.info("Threshold set: " + str(threshold))
     return threshold
-
-
-'''
-    change_vals = np.array(change_vals).astype(float)
-    #Generate box plot on the data
-
-    plt.figure()
-    plt.boxplot(change_vals)
-    plt.savefig(threshold_path + '.png')
-'''
