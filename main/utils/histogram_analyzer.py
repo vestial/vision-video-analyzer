@@ -102,7 +102,6 @@ def get_threshold(video):
     raw_change_vals = []
     borders = []
     threshold = 30  #Default ContentDetector threshold value
-    threshold_flag = False  #Check if optimal threshold is reached
     window_size = int(
         get_frame_rate(video))  #Window size to check validity of border
     #Get only the absolute content_val changes from the generated csv
@@ -139,9 +138,18 @@ def get_threshold(video):
         plt.xlabel("del_content_val_abs")
         plt.ylabel("Absolute content_val difference")
         plt.boxplot(region_vals)
+        boxplot_stats = mpl.cbook.boxplot_stats(region_vals)
+        upper_whisker = next(item for item in boxplot_stats).get('whishi')
+        if border[1] <= upper_whisker:
+            borders.remove(border)
         plt.savefig(f'{thresholds_path}{i}.png')
         i += 1
-    return change_vals
+    border_thresholds = []
+    for border in borders:
+        border_thresholds.append(border[1])
+    threshold = min(border_thresholds)
+    logger.info("Threshold set: " + str(threshold))
+    return threshold
 
 
 '''

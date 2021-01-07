@@ -50,8 +50,7 @@ def get_shots(video):
     ],
                                          stdout=subprocess.PIPE).wait()
     logger.info("Parsing threshold")
-    logger.info(get_threshold(video))
-    threshold = 37  # stub
+    threshold = get_threshold(video)
     logger.info("Shots processing")
     process = subprocess.Popen([
         'scenedetect', '--input', video_input_path, '--stats', stats_path,
