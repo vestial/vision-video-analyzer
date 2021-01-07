@@ -1,3 +1,4 @@
+from main.utils.histogram_analyzer import generate_threshold_csv, get_threshold, parse_stats
 from main.utils.background import BackgroundColorDetector
 from time import sleep
 from vision_video_analyzer.settings import MEDIA_ROOT
@@ -49,6 +50,8 @@ def get_shots(video):
     ],
                                          stdout=subprocess.PIPE).wait()
     logger.info(parse_stats(stats_path))
+    logger.info("Parsing threshold")
+    generate_threshold_csv(video)
     threshold = 37  # stub
     logger.info("Shots processing")
     process = subprocess.Popen([
@@ -70,25 +73,6 @@ def stream_process(process):
     for line in process.stdout:
         print(line)
     return go
-
-
-# Parse content_val from scenedetect stats to assist in determining optimal threshold value
-def parse_stats(stats):
-    content_vals = []
-    if (stats is None):
-        logger.info("No stats file found")
-        return
-    with open(stats) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
-        for row in csv_reader:
-            if line_count < 2:
-                line_count += 1
-            else:
-                content_vals.append(row[2])
-                line_count += 1
-        print(f'Processed {line_count} lines.')
-        return content_vals
 
 
 # Use ffprobe to get shots length that were produced by pyscenedtect
