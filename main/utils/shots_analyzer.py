@@ -56,8 +56,8 @@ def get_shots(video):
         'scenedetect', '--input', video_input_path, '--stats', stats_path,
         'detect-content', '-t',
         str(threshold), 'list-scenes', '-o', shots_screenshots_output_path,
-        'save-images', '-o', shots_screenshots_output_path, 'split-video',
-        '-o', shots_output_path
+        'save-images', '-n', '3', '-o', shots_screenshots_output_path,
+        'split-video', '-o', shots_output_path
     ],
                                stdout=subprocess.PIPE)
     while stream_process(process):
