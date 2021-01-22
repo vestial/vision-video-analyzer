@@ -151,6 +151,7 @@ def get_threshold(video):
     border_thresholds = []
     for border in borders:
         border_thresholds.append(border[2])
+    logger.info(border_thresholds)
     del border_thresholds[
         1::
         2]  #Prune odd content_val to prevent absolute negative del_content_val inclusion
