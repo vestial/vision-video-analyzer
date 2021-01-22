@@ -83,7 +83,7 @@ def generate_threshold_csv(video):
         i = 0
         for content_val in content_vals:
             del_content_val = 0
-            if i is not 0:
+            if i != 0:
                 del_content_val = float(content_vals[i]) - float(
                     content_vals[i - 1])
             del_content_val_abs = abs(del_content_val)
