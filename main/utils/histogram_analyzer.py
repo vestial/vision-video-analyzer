@@ -40,13 +40,15 @@ def get_exposure_histogram(video):
                 logger.info(f'{filename} is underexposed!')
             if bright_pixels / total_pixels > 0.5:
                 logger.info(f'{filename} is overexposed!')
-            plt.figure()
+            figure = plt.figure()
             plt.title("Grayscale Histogram")
             plt.xlabel("Bins")
             plt.ylabel("# of Pixels")
             plt.plot(hist)
             plt.xlim([0, 256])
             plt.savefig(histogram_output_path + filename)
+            figure.clear()
+            plt.close(figure)
             logger.info(filename + " Histogram calculated")
 
 
@@ -137,7 +139,7 @@ def get_threshold(video):
         for val in region:
             region_vals.append(val[1])
         #Generate boxplot for each window
-        plt.figure()
+        figure = plt.figure()
         plt.xlabel("del_content_val_abs")
         plt.ylabel("Absolute content_val difference")
         plt.boxplot(region_vals)
@@ -147,6 +149,8 @@ def get_threshold(video):
         if border[1] <= upper_whisker:
             borders.remove(border)
         plt.savefig(f'{thresholds_path}{i}.png')
+        figure.clear()
+        plt.close(figure)
         i += 1
     border_thresholds = []
     for border in borders:
