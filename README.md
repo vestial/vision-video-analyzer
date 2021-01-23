@@ -3,7 +3,7 @@
 ## Installation
 
 1. Download the repo.
-2. Make sure you have ffmpeg, exiftool, mediainfo, and redis as apt packages installed.
+2. Make sure you have ffmpeg and mediainfo, and redis as apt packages installed.
 3. Run `pipenv install` to install all the required modules.
 4. Run `pipenv shell`.
 5. Run `python manage.py runserver` to start the web app.
