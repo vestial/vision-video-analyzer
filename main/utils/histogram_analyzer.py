@@ -167,6 +167,7 @@ def get_threshold(video):
     plt.plot(raw_change_vals)
     plt.savefig(f'{csv_path}.png')
     i = 0
+    pruned_borders = borders  # Copy border to avoid modifying borders in for loop
     for border in borders:
         #Define bounding region for each window
         region_start = 0 if int(border[0]) - window_size < 1 else int(
@@ -187,13 +188,13 @@ def get_threshold(video):
         upper_whisker = next(item for item in boxplot_stats).get('whishi')
         #Checks if border is real (not within normal distribution of the box plot)
         if border[1] <= upper_whisker:
-            borders.remove(border)
+            pruned_borders.remove(border)
         plt.savefig(f'{thresholds_path}{i}.png')
         figure.clear()
         plt.close(figure)
         i += 1
     border_thresholds = []
-    for border in borders:
+    for border in pruned_borders:
         border_thresholds.append(border[2])
     logger.info(border_thresholds)
     del border_thresholds[
