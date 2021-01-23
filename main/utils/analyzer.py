@@ -63,7 +63,7 @@ def get_resolution(video):
     return resolution.stdout
 
 
-# Get fps from ffprobe in frame/sec format. Rounded to make it look better
+# Get video fps from ffprobe in frame/sec format. Rounded to make it look better
 def get_frame_rate(video):
     video_input_path = f'{videos}/{video}'
     frame_rate = subprocess.run([
@@ -82,19 +82,15 @@ def get_frame_rate(video):
     return rounded_fps
 
 
-# Get bit rate from ffprobe and format it to kbps
+# Get video bit rate using MediaInfo and format it to mbps
 def get_bit_rate(video):
     video_input_path = f'{videos}/{video}'
-    bit_rate = subprocess.run(
-        ['exiftool', '-s', '-s', '-s', '-avgBitrate', video_input_path],
-        capture_output=True,
-        text=True,
-        input="Y")
-
-    return bit_rate.stdout
+    media_info = MediaInfo.parse(video_input_path)
+    bit_rate = media_info.video_tracks[0].bit_rate
+    return str(np.round(np.divide(int(bit_rate), 1000000), 1)) + " mbps"
 
 
-# Get bit depth using MediaInfo
+# Get video bit depth using MediaInfo
 def get_bit_depth(video):
     video_input_path = f'{videos}/{video}'
     media_info = MediaInfo.parse(video_input_path)
