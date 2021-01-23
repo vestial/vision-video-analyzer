@@ -10,6 +10,7 @@ def celery_analyze_shots(video):
                          get_shots_length.si(video), get_contrast.si(video),
                          get_background.si(video),
                          get_shot_screenshot.si(video))()
+    result.append(celery_chain.parent.parent.parent.parent.get())
     result.append(celery_chain.parent.parent.parent.get())
     result.append(celery_chain.parent.parent.get())
     result.append(celery_chain.parent.get())

@@ -17,6 +17,7 @@ shots = f'{MEDIA_ROOT}/shots'
 mpl.use('agg')
 
 
+# Use histogram analysis to analyze the exposure of each shot.
 @shared_task
 def get_exposure_histogram(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
@@ -55,10 +56,11 @@ def get_exposure_histogram(video):
             figure.clear()
             plt.close(figure)
             logger.info(filename + " Histogram calculated")
-    return calculate_exposures(exposures)
+    return determine_exposures(exposures)
 
 
-def calculate_exposures(exposures):
+# Determine the exposure of each shot by checking the exposure of the 3 screenshots output of every shot
+def determine_exposures(exposures):
     result = []
     temp = set()
     for i in range(len(exposures)):
@@ -74,10 +76,11 @@ def calculate_exposures(exposures):
             else:
                 result.append(parse_exposure("normal"))
             temp = set()
-    print(result)
+    print(f'Processed exposures: {result}')
     return result
 
 
+# Convert raw exposure into proper text for users to understand
 def parse_exposure(exposure):
     if (exposure == "underexposed"):
         return "Shot is underexposed!"

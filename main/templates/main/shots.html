@@ -53,12 +53,13 @@ Your video
       </div>
     </div>
     <div class="row mt-4 ml-2">
-    {%for length, contrast, background, screenshot in data %}
+    {%for exposure, length, contrast, background, screenshot in data %}
     <div class="card-deck">
       <div class="card mx-4 mb-4" style="width: 16rem;">
         <img src="{{MEDIA_URL}}/media/shots/{{video}}/screenshots/{{ screenshot }}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Shot {{ forloop.counter }}</h5>
+          <div class="card-text"><div class="font-weight-bold">Exposure:</div> {{ exposure }}</div>
           <div class="card-text"><div class="font-weight-bold">Length:</div> {{ length }} seconds</div>
           <div class="card-text"><div class="font-weight-bold">Contrast:</div> {{ contrast }} (RMS)</div>
           <div class="card-text"><div class="font-weight-bold">Background:</div> {{ background }} (RGB)</div>
