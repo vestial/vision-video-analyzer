@@ -24,6 +24,7 @@ def get_exposure_histogram(video):
     if os.path.isdir(histogram_output_path) == False:
         os.mkdir(histogram_output_path)
     logger.info("Calculating histogram")
+    exposures = []
     for filename in sorted(os.listdir(shots_output_path)):
         img = cv2.imread(os.path.join(shots_output_path, filename))
         if img is not None:
@@ -38,8 +39,12 @@ def get_exposure_histogram(video):
 
             if dark_pixels / total_pixels > 0.5:
                 logger.info(f'{filename} is underexposed!')
-            if bright_pixels / total_pixels > 0.5:
+                exposures.append("underexposed")
+            elif bright_pixels / total_pixels > 0.5:
                 logger.info(f'{filename} is overexposed!')
+                exposures.append("overexposed")
+            else:
+                exposures.append("normal")
             figure = plt.figure()
             plt.title("Grayscale Histogram")
             plt.xlabel("Bins")
@@ -50,6 +55,38 @@ def get_exposure_histogram(video):
             figure.clear()
             plt.close(figure)
             logger.info(filename + " Histogram calculated")
+    return calculate_exposures(exposures)
+
+
+def calculate_exposures(exposures):
+    result = []
+    temp = set()
+    for i in range(len(exposures)):
+        if i == 0 or i % 3 != 0:
+            temp.add(exposures[i])
+            if i == len(exposures) - 1:
+                result.append(parse_exposure(exposures[i]))
+        else:
+            if "underexposed" in temp:
+                result.append(parse_exposure("underexposed"))
+            elif "overexposed" in temp:
+                result.append(parse_exposure("overexposed"))
+            else:
+                result.append(parse_exposure("normal"))
+            temp = set()
+    print(result)
+    return result
+
+
+def parse_exposure(exposure):
+    if (exposure == "underexposed"):
+        return "Shot is underexposed!"
+    elif (exposure == "overexposed"):
+        return "Shot is overexposed!"
+    elif (exposure == "normal"):
+        return "Exposure is normal."
+    else:
+        return "Error in calculating exposure"
 
 
 # Parse content_val from scenedetect stats to assist in determining optimal threshold value
