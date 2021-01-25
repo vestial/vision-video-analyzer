@@ -175,13 +175,13 @@ def mean_rgb_calculator(r, g, b):
     return tuple([mean_r, mean_g, mean_b])
 
 
-#Get the second shot screenshot for each shot
+#Get the first shot screenshot for each shot
 @shared_task
 def get_shot_screenshot(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
     results = []
     for filename in sorted(os.listdir(shots_output_path)):
-        if filename.endswith("-02.jpg"):
+        if filename.endswith("-01.jpg"):
             results.append(filename)
     return results
 
