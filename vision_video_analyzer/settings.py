@@ -131,7 +131,7 @@ LOGOUT_REDIRECT_URL = "/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "media/"
 
-SITE_URL = "http://127.0.0.1:8000"
+SITE_URL = "https://kant.se.uni-hannover.de"
 
 # Celery
 CELERY_BROKER_URL = 'redis://localhost:6379'
