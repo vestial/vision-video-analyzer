@@ -64,25 +64,26 @@ def determine_exposures(exposures):
     result = []
     temp = set()
     for i in range(len(exposures)):
-        if i == 0 or i % 3 != 0:
-            temp.add(exposures[i])
-            if i == len(exposures) - 1:
-                result.append(parse_exposure(exposures[i]))
-        else:
-            if "underexposed" in temp:
+        if (i % 3 == 0 and i != 0) or i == len(exposures) - 1:
+            if "underexposed" and "overexposed" in temp:
+                result.append(parse_exposure("both"))
+            elif "underexposed" in temp:
                 result.append(parse_exposure("underexposed"))
             elif "overexposed" in temp:
                 result.append(parse_exposure("overexposed"))
             else:
                 result.append(parse_exposure("normal"))
             temp = set()
+        temp.add(exposures[i])
     print(f'Processed exposures: {result}')
     return result
 
 
 # Convert raw exposure into proper text for users to understand
 def parse_exposure(exposure):
-    if (exposure == "underexposed"):
+    if (exposure == "both"):
+        return "The shot is both over- and underexposed!"
+    elif (exposure == "underexposed"):
         return "Shot is underexposed!"
     elif (exposure == "overexposed"):
         return "Shot is overexposed!"
