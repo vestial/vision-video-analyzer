@@ -25,7 +25,7 @@ SECRET_KEY = 'c%sb!3b%_d11z=-d4b*se1cl%t*s5t9p(o%9hw9mx0o#*sa5)^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['130.75.33.224']
+ALLOWED_HOSTS = ['130.75.33.224', 'kant.se.uni-hannover.de']
 
 # Application definition
 
