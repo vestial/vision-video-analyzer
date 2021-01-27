@@ -1,14 +1,18 @@
+from main.utils.histogram_analyzer import get_threshold, get_threshold, parse_stats
 from main.utils.background import BackgroundColorDetector
 from time import sleep
 from vision_video_analyzer.settings import MEDIA_ROOT
 from celery.decorators import task
 from celery.utils.log import get_task_logger
 from celery import shared_task
+from PIL import Image
 
 import subprocess
 import numpy as np
 import cv2
 import os
+import pytesseract
+import csv
 
 videos = f'{MEDIA_ROOT}/videos'
 thumbnails = f'{MEDIA_ROOT}/thumbnails'
@@ -31,13 +35,29 @@ def get_shots(video):
     video_input_path = f'{videos}/{video}'
     shots_screenshots_output_path = f'{shots}/{video}/screenshots/'
     shots_output_path = f'{shots}/{video}/shots/'
-
+    stats_path = f'{shots}/{video}/{video}.csv'
+    logger.info("Finding threshold")
+    threshold_process = subprocess.Popen([
+        'scenedetect',
+        '--input',
+        video_input_path,
+        '--stats',
+        stats_path,
+        'detect-content',
+        'list-scenes',
+        '-o',
+        shots_screenshots_output_path,
+    ],
+                                         stdout=subprocess.PIPE).wait()
+    logger.info("Parsing threshold")
+    threshold = get_threshold(video)
     logger.info("Shots processing")
     process = subprocess.Popen([
-        'scenedetect', '--input', video_input_path, 'detect-content', '-t',
-        '37', 'list-scenes', '-o', shots_screenshots_output_path,
-        'save-images', '-o', shots_screenshots_output_path, 'split-video',
-        '-o', shots_output_path
+        'scenedetect', '--input', video_input_path, '--stats', stats_path,
+        'detect-content', '-t',
+        str(threshold), 'list-scenes', '-o', shots_screenshots_output_path,
+        'save-images', '-n', '3', '-o', shots_screenshots_output_path,
+        'split-video', '-o', shots_output_path
     ],
                                stdout=subprocess.PIPE)
     while stream_process(process):
@@ -155,12 +175,34 @@ def mean_rgb_calculator(r, g, b):
     return tuple([mean_r, mean_g, mean_b])
 
 
-#Get the second shot screenshot for each shot
+#Get the first shot screenshot for each shot
 @shared_task
 def get_shot_screenshot(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
     results = []
     for filename in sorted(os.listdir(shots_output_path)):
-        if filename.endswith("-02.jpg"):
+        if filename.endswith("-01.jpg"):
             results.append(filename)
     return results
+
+
+'''
+# List all shots with text
+@shared_task
+def get_shot_text(video):
+    shots_output_path = f'{shots}/{video}/screenshots/'
+    results = []
+    for filename in sorted(os.listdir(shots_output_path)):
+        if filename.endswith(".jpg"):
+            img = Image.open(os.path.join(shots_output_path, filename))
+            if img.getcolors() is not None:
+                #border = pytesseract.image_to_boxes(img).split(" ")
+                #(left, upper, right, lower) = (int(border[1]),int(border[2]) - 8,int(border[3]),int(border[4]) + 8)
+                #im_crop = img.crop((left, upper, right, lower))
+                #colors = sorted(im_crop.getcolors())
+                #hex = ('#%02x%02x%02x' % colors[-2][1])
+                text = pytesseract.image_to_string(img)
+                #print("Color is: " + hex + ". Text is: " + text)
+                print(text)
+    return results
+'''

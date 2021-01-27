@@ -16,6 +16,9 @@ colr = "*"
 yapf = "*"
 celery = "*"
 redis = "*"
+pytesseract = "*"
+pillow = "*"
+matplotlib = "*"
 
 [requires]
 python_version = "3.7"
