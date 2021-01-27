@@ -17,14 +17,17 @@ def analyze_video(video, uploaded_file):
     video.resolution = get_resolution(uploaded_file)
     video.resolution_rating = get_resolution_recommendation(video)[0]
     video.resolution_recommendation = get_resolution_recommendation(video)[1]
+    video.resolution_recommended = "1920x1080 (1080p) up to 3840x2160 (4K)"
 
     video.frame_rate = get_frame_rate(uploaded_file)
     video.frame_rate_rating = get_frame_rate_recommendation(video)[0]
     video.frame_rate_recommendation = get_frame_rate_recommendation(video)[1]
+    video.frame_rate_recommended = "24 - 60 fps"
 
     video.bit_rate = get_bit_rate(uploaded_file)
     video.bit_rate_rating = get_bit_rate_recommendation(video)[0]
     video.bit_rate_recommendation = get_bit_rate_recommendation(video)[1]
+    video.bit_rate_recommended = get_bit_rate_recommendation(video)[2]
 
     video.bit_depth = get_bit_depth(uploaded_file)
     video.sample_rate = get_sample_rate(uploaded_file)

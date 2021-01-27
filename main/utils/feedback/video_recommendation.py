@@ -45,8 +45,10 @@ def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
                     low_fps_minimum, low_fps_maximum):
     rating = ""
     recommendation = ""
+    recommended = ""
     bit_rate = float(video.bit_rate)
     if frame_rate == "high":
+        recommended = f'{high_fps_minimum} Mbps up to {high_fps_maximum} Mbps'
         if bit_rate >= high_fps_minimum and bit_rate <= high_fps_maximum:
             rating = "Great!"
             recommendation = "Great bit rate!"
@@ -57,6 +59,7 @@ def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
             rating = "Bad"
             recommendation = f'Your bit rate is too low. Please increase it to at least {high_fps_minimum} Mbps'
     else:
+        recommended = f'{low_fps_minimum} Mbps up to {low_fps_maximum} Mbps'
         if bit_rate >= low_fps_minimum and bit_rate <= low_fps_maximum:
             rating = "Great!"
             recommendation = "Great bit rate!"
@@ -66,12 +69,11 @@ def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
         else:
             rating = "Bad"
             recommendation = f'Your bit rate is too low. Please increase it to at least {low_fps_minimum} Mbps'
-    return (rating, recommendation)
+    return (rating, recommendation, recommended)
 
 
 def get_bit_rate_recommendation(video):
     result = ()
-
     frame_rate = "high" if video.frame_rate > 30 else "standard"
     resolution = video.resolution.split('x')
     resolution = list(map(int, resolution))
@@ -90,8 +92,10 @@ def get_bit_rate_recommendation(video):
         result[0] = "Bad"
         result[
             1] = "Please increase your resolution to at least 480p in order to see meaningful bit rate recommendation."
+        result[2] = "Unsupported recommendation"
     else:
         result[0] = "Unknown"
         result[
             1] = "Unsupported bit rate analysis. Your resolution is most likely too high or not a standard resolution."
+        result[2] = "Unsupported recommendation"
     return result
