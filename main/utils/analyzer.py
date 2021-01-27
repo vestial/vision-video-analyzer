@@ -1,5 +1,5 @@
-from main.utils.feedback.video_rating import get_resolution_rating
-from main.utils.feedback.video_recommendation import get_resolution_recommendation
+from main.utils.feedback.video_rating import get_frame_rate_rating, get_resolution_rating
+from main.utils.feedback.video_recommendation import get_frame_rate_recommendation, get_resolution_recommendation
 from pymediainfo import MediaInfo
 from vision_video_analyzer.settings import MEDIA_ROOT
 from main.utils.background import BackgroundColorDetector
@@ -16,11 +16,13 @@ def analyze_video(video, uploaded_file):
     video.thumbnail = get_thumbnail(uploaded_file)
 
     video.resolution = get_resolution(uploaded_file)
-    video.resolution_recommendation = get_resolution_recommendation(video)
     video.resolution_rating = get_resolution_rating(video)
+    video.resolution_recommendation = get_resolution_recommendation(video)
 
-    #video.shutter_speed = get_shutter_speed(uploaded_file)
     video.frame_rate = get_frame_rate(uploaded_file)
+    video.frame_rate_rating = get_frame_rate_rating(video)
+    video.frame_rate_recommendation = get_frame_rate_recommendation(video)
+
     video.bit_rate = get_bit_rate(uploaded_file)
     video.bit_depth = get_bit_depth(uploaded_file)
     video.sample_rate = get_sample_rate(uploaded_file)
