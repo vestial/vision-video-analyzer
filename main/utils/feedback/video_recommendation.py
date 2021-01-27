@@ -41,21 +41,57 @@ def get_frame_rate_recommendation(video):
     return (rating, recommendation)
 
 
-def get_bit_rate_recommendation(video):
+def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
+                    low_fps_minimum, low_fps_maximum):
     rating = ""
     recommendation = ""
-    if video.frame_rate < 24:
-        rating = "Bad"
-        recommendation = "Your frame rate is too low. Please increase it to at least 24 fps by changing the settings in your camera."
-    elif video.frame_rate >= 24 and video.frame_rate <= 30:
-        rating = "Good"
-        recommendation = "Your frame rate is good. You can increase it to 60 fps if you wish to capture fast moving footages or use slow motion effects."
-    elif video.frame_rate <= 60:
-        rating = "Great!"
-        recommendation = "Great frame rate!"
-    elif video.frame_rate > 60:
-        rating = "Unknown"
-        recommendation = "Your frame rate might be too high. Please lower it to 30 or 24 fps if you do not use any slow motion effects."
+    bit_rate = float(video.bit_rate)
+    if frame_rate == "high":
+        if bit_rate >= high_fps_minimum and bit_rate <= high_fps_maximum:
+            rating = "Great!"
+            recommendation = "Great bit rate!"
+        elif bit_rate > high_fps_maximum:
+            rating = "Okay"
+            recommendation = "Your bit rate might be too high. Try increasing the resolution, increasing the fps or reducing the bit rate."
+        else:
+            rating = "Bad"
+            recommendation = f'Your bit rate is too low. Please increase it to at least {high_fps_minimum} Mbps'
     else:
-        recommendation = "Please set your frame rate to 24, 25, 30, or 60 FPS for a standard frame rate."
+        if bit_rate >= low_fps_minimum and bit_rate <= low_fps_maximum:
+            rating = "Great!"
+            recommendation = "Great bit rate!"
+        elif bit_rate > low_fps_maximum:
+            rating = "Okay"
+            recommendation = "Your bit rate might be too high. Try increasing the resolution, increasing the fps or reducing the bit rate."
+        else:
+            rating = "Bad"
+            recommendation = f'Your bit rate is too low. Please increase it to at least {low_fps_minimum} Mbps'
     return (rating, recommendation)
+
+
+def get_bit_rate_recommendation(video):
+    result = ()
+
+    frame_rate = "high" if video.frame_rate > 30 else "standard"
+    resolution = video.resolution.split('x')
+    resolution = list(map(int, resolution))
+
+    if resolution[1] == 2160:
+        result = bit_rate_helper(video, frame_rate, 53, 85, 35, 56)
+    elif resolution[1] == 1440:
+        result = bit_rate_helper(video, frame_rate, 24, 30, 16, 20)
+    elif resolution[1] == 1080:
+        result = bit_rate_helper(video, frame_rate, 12, 15, 8, 10)
+    elif resolution[1] == 720:
+        result = bit_rate_helper(video, frame_rate, 7.5, 9.5, 5, 6.5)
+    elif resolution[1] == 480:
+        result = bit_rate_helper(video, frame_rate, 4, 5, 2.5, 3.5)
+    elif resolution[1] < 480:
+        result[0] = "Bad"
+        result[
+            1] = "Please increase your resolution to at least 480p in order to see meaningful bit rate recommendation."
+    else:
+        result[0] = "Unknown"
+        result[
+            1] = "Unsupported bit rate analysis. Your resolution is most likely too high or not a standard resolution."
+    return result
