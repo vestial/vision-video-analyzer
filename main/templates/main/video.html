@@ -31,10 +31,10 @@ Your video
       <h5>Resolution: {{video.resolution}}</h5>
       {#<h5>Shutter speed: {{video.shutter_speed}}</h5 > #}
       <h5>Video frame rate: {{video.frame_rate}} fps</h5>
-      <h5>Bit rate: {{video.bit_rate}}</h5>
-      <h5>Bit depth: {{video.bit_depth}}</h5>
-      <h5>Sample rate: {{video.sample_rate}}</h5>
-      <h5>Video length: {{video.video_length}}</h5>
+      <h5>Bit rate: {{video.bit_rate}} mbps</h5>
+      <h5>Bit depth: {{video.bit_depth}} bits</h5>
+      <h5>Sample rate: {{video.sample_rate}} kHz</h5>
+      <h5>Video length: {{video.video_length}} seconds</h5>
       <hr/>
       <form action="{% url 'shots' video.id%}" method="POST">
         {% csrf_token %} 
@@ -109,7 +109,7 @@ Your video
       <h4><strong>Bit rate</strong></h4>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Video value: </strong></h6>
-        <h6>{{video.bit_rate}}</h6>
+        <h6>{{video.bit_rate}} mbps</h6>
       </div>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Recommended value: </strong></h6>
@@ -130,7 +130,7 @@ Your video
       <h4><strong>Bit depth</strong></h4>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Video value: </strong></h6>
-        <h6>{{video.bit_depth}}</h6>
+        <h6>{{video.bit_depth}} bits</h6>
       </div>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Recommended value: </strong></h6>
@@ -151,7 +151,7 @@ Your video
       <h4><strong>Sample rate</strong></h4>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Video value: </strong></h6>
-        <h6>{{video.sample_rate}}</h6>
+        <h6>{{video.sample_rate}} kHz</h6>
       </div>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Recommended value: </strong></h6>
@@ -172,7 +172,7 @@ Your video
       <h4><strong>Video length</strong></h4>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Video value: </strong></h6>
-        <h6>{{video.video_length}}</h6>
+        <h6>{{video.video_length}} seconds</h6>
       </div>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Recommended value: </strong></h6>

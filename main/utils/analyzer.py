@@ -1,4 +1,4 @@
-from main.utils.feedback.video_recommendation import get_frame_rate_recommendation, get_resolution_recommendation
+from main.utils.feedback.video_recommendation import get_bit_rate_recommendation, get_frame_rate_recommendation, get_resolution_recommendation
 from pymediainfo import MediaInfo
 from vision_video_analyzer.settings import MEDIA_ROOT
 from main.utils.background import BackgroundColorDetector
@@ -23,6 +23,9 @@ def analyze_video(video, uploaded_file):
     video.frame_rate_recommendation = get_frame_rate_recommendation(video)[1]
 
     video.bit_rate = get_bit_rate(uploaded_file)
+    video.bit_rate_rating = get_bit_rate_recommendation(video)[0]
+    video.bit_rate_recommendation = get_bit_rate_recommendation(video)[1]
+
     video.bit_depth = get_bit_depth(uploaded_file)
     video.sample_rate = get_sample_rate(uploaded_file)
     video.video_length = get_video_length(uploaded_file)
@@ -94,7 +97,7 @@ def get_bit_rate(video):
     video_input_path = f'{videos}/{video}'
     media_info = MediaInfo.parse(video_input_path)
     bit_rate = media_info.video_tracks[0].bit_rate
-    return str(np.round(np.divide(int(bit_rate), 1000000), 1)) + " mbps"
+    return str(np.round(np.divide(int(bit_rate), 1000000), 1))
 
 
 # Get video bit depth using MediaInfo
@@ -102,7 +105,7 @@ def get_bit_depth(video):
     video_input_path = f'{videos}/{video}'
     media_info = MediaInfo.parse(video_input_path)
     bit_depth = media_info.video_tracks[0].bit_depth
-    return str(bit_depth) + " bits"
+    return bit_depth
 
 
 # Get sample rate using ffprobe and convert to kHz
@@ -118,8 +121,7 @@ def get_sample_rate(video):
 
     if not sample_rate.stdout:
         return "Unknown"
-    rounded_sample_rate = str(
-        np.round(np.divide(int(sample_rate.stdout), 1000))) + " kHz"
+    rounded_sample_rate = np.round(np.divide(int(sample_rate.stdout), 1000))
     return rounded_sample_rate
 
 
@@ -133,6 +135,5 @@ def get_video_length(video):
                                   capture_output=True,
                                   text=True,
                                   input="Y")
-    rounded_video_length = str(int(np.round(float(
-        video_length.stdout)))) + " seconds"
+    rounded_video_length = int(np.round(float(video_length.stdout)))
     return rounded_video_length
