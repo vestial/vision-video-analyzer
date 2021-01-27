@@ -1,4 +1,6 @@
-from main.utils.feedback.video_recommendation import get_bit_rate_recommendation, get_frame_rate_recommendation, get_resolution_recommendation
+from main.utils.feedback.bit_rate import get_bit_rate_recommendation
+from main.utils.feedback.frame_rate import get_frame_rate_recommendation
+from main.utils.feedback.resolution import get_resolution_recommendation
 from pymediainfo import MediaInfo
 from vision_video_analyzer.settings import MEDIA_ROOT
 from main.utils.background import BackgroundColorDetector
