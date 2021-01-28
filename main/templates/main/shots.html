@@ -53,7 +53,7 @@ Your video
       </div>
     </div>
     <div class="row mt-4 ml-2">
-    {%for exposure, length, contrast, background, screenshot in data %}
+    {%for exposure, length, contrast, background, screenshot, recommendation in data %}
     <div class="card-deck">
       <div class="card mx-4 mb-4" style="width: 16rem;">
         <img src="{{MEDIA_URL}}/media/shots/{{video}}/screenshots/{{ screenshot }}" class="card-img-top" alt="...">
