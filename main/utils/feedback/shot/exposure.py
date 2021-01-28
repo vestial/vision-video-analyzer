@@ -10,7 +10,7 @@ def get_exposure_recommendation_wrapper(exposures):
 
 def get_exposure_recommendation(exposure):
 
-    recommended = "Between 15 and 30 seconds."
+    recommended = "Neither under- nor overexposed."
     rating = ""
     feedback = ""
 
