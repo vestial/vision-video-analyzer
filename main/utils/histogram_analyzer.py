@@ -84,7 +84,7 @@ def determine_exposures(exposures):
 # Convert raw exposure into proper text for users to understand
 def parse_exposure(exposure):
     if (exposure == "both"):
-        return "The shot is both over- and underexposed!"
+        return "Some part of the shot is underexposed and another part is overexposed!"
     elif (exposure == "underexposed"):
         return "Shot is underexposed!"
     elif (exposure == "overexposed"):
