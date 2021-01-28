@@ -10,8 +10,17 @@ def get_background_recommendation_wrapper(backgrounds):
 
 def get_background_recommendation(background):
 
-    results = [
-        "Background recommended", "Background rating", " Background feedback"
-    ]
+    recommended = "Colors that are not black or strong (red, yellow, or bright green).."
+    rating = ""
+    feedback = ""
 
-    return results
+    return [recommended, rating, feedback]
+
+
+def color_picker(rgb):
+    result = ""
+    if rgb[0] <= 255 and rgb[0] >= 200 and rgb[1] <= 50 and rgb[
+            2] <= 50:  #Bright red
+        result = "red"
+
+    return result
