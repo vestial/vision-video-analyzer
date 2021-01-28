@@ -109,6 +109,7 @@ def shots(response, id):
     shot_contrasts = []
     shot_background_colors = []
     shot_screenshots = []
+    shot_recommendations = []
     if response.method == "POST" and os.path.isdir('./media/shots/' +
                                                    str(vid)) == False:
         print("Analyzing shots")
@@ -118,12 +119,14 @@ def shots(response, id):
         shot_contrasts = result[2]
         shot_background_colors = result[3]
         shot_screenshots = result[4]
+        shot_recommendations = result[5]
         data_set = {
             "exposures": shot_exposures,
             "lengths": shot_lengths,
             "contrasts": shot_contrasts,
             "backgrounds": shot_background_colors,
-            "screenshots": shot_screenshots
+            "screenshots": shot_screenshots,
+            "recommendations": shot_recommendations
         }
         with open(os.path.join(shots_output_path, vid.name + ".json"),
                   'w') as json_file:
@@ -142,11 +145,13 @@ def shots(response, id):
                 shot_background_colors.append(background)
             for screenshot in data['screenshots']:
                 shot_screenshots.append(screenshot)
+            for recommendation in data['recommendations']:
+                shot_recommendations.append(recommendation)
     context = {
         "video":
         vid,
         "data":
         zip(shot_exposures, shot_lengths, shot_contrasts,
-            shot_background_colors, shot_screenshots)
+            shot_background_colors, shot_screenshots, shot_recommendations)
     }
     return render(response, "main/shots.html", context)
