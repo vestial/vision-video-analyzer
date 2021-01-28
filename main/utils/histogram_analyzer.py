@@ -63,9 +63,11 @@ def get_exposure_histogram(video):
 def determine_exposures(exposures):
     result = []
     temp = set()
+    print("Preeeeeeeeeeeeeee")
+    print(exposures)
     for i in range(len(exposures)):
         if (i % 3 == 0 and i != 0) or i == len(exposures) - 1:
-            if "underexposed" and "overexposed" in temp:
+            if "underexposed" in temp and "overexposed" in temp:
                 result.append(parse_exposure("both"))
             elif "underexposed" in temp:
                 result.append(parse_exposure("underexposed"))
