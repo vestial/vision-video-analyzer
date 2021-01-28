@@ -78,27 +78,6 @@ Your video
           </div>
           <div class="modal-body">
             <div class="col pb-3">
-              <h4><strong>Shot length</strong></h4>
-              <div class="row px-3"> 
-                <h6 class="pr-2"><strong>Shot value: </strong></h6>
-                <h6>{{length}}</h6>
-              </div>
-              <div class="row px-3"> 
-                <h6 class="pr-2"><strong>Recommended value: </strong></h6>
-                <h6>Bruh</h6>
-              </div>
-              <div class="row px-3"> 
-                <h6 class="pr-2"><strong>Rating: </strong></h6>
-                <h6>Meh</h6>
-              </div>
-              <div class="row"> 
-                <div class="col">
-                  <h6 class="pr-2"><strong>Feedback: </strong></h6>
-                  <h6>bruv</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col pb-3">
               <h4><strong>Exposure</strong></h4>
               <div class="row px-3"> 
                 <h6 class="pr-2"><strong>Shot value: </strong></h6>
@@ -106,16 +85,37 @@ Your video
               </div>
               <div class="row px-3"> 
                 <h6 class="pr-2"><strong>Recommended value: </strong></h6>
-                <h6>Bruh</h6>
+                <h6>{{recommendation.0.0}}</h6>
               </div>
               <div class="row px-3"> 
                 <h6 class="pr-2"><strong>Rating: </strong></h6>
-                <h6>Meh</h6>
+                <h6>{{recommendation.0.1}}</h6>
               </div>
               <div class="row"> 
                 <div class="col">
                   <h6 class="pr-2"><strong>Feedback: </strong></h6>
-                  <h6>bruv</h6>
+                  <h6>{{recommendation.0.2}}</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col pb-3">
+              <h4><strong>Shot length</strong></h4>
+              <div class="row px-3"> 
+                <h6 class="pr-2"><strong>Shot value: </strong></h6>
+                <h6>{{length}}</h6>
+              </div>
+              <div class="row px-3"> 
+                <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+                <h6>{{recommendation.1.0}}</h6>
+              </div>
+              <div class="row px-3"> 
+                <h6 class="pr-2"><strong>Rating: </strong></h6>
+                <h6>{{recommendation.1.1}}</h6>
+              </div>
+              <div class="row"> 
+                <div class="col">
+                  <h6 class="pr-2"><strong>Feedback: </strong></h6>
+                  <h6>{{recommendation.1.2}}</h6>
                 </div>
               </div>
             </div>   
@@ -127,16 +127,16 @@ Your video
               </div>
               <div class="row px-3"> 
                 <h6 class="pr-2"><strong>Recommended value: </strong></h6>
-                <h6>Bruh</h6>
+                <h6>{{recommendation.2.0}}</h6>
               </div>
               <div class="row px-3"> 
                 <h6 class="pr-2"><strong>Rating: </strong></h6>
-                <h6>Meh</h6>
+                <h6>{{recommendation.2.1}}</h6>
               </div>
               <div class="row"> 
                 <div class="col">
                   <h6 class="pr-2"><strong>Feedback: </strong></h6>
-                  <h6>bruv</h6>
+                  <h6>{{recommendation.2.2}}</h6>
                 </div>
               </div>
             </div>   
@@ -148,16 +148,16 @@ Your video
               </div>
               <div class="row px-3"> 
                 <h6 class="pr-2"><strong>Recommended value: </strong></h6>
-                <h6>Bruh</h6>
+                <h6>{{recommendation.3.0}}</h6>
               </div>
               <div class="row px-3"> 
                 <h6 class="pr-2"><strong>Rating: </strong></h6>
-                <h6>Meh</h6>
+                <h6>{{recommendation.3.1}}</h6>
               </div>
               <div class="row"> 
                 <div class="col">
                   <h6 class="pr-2"><strong>Feedback: </strong></h6>
-                  <h6>bruv</h6>
+                  <h6>{{recommendation.3.2}}</h6>
                 </div>
               </div>
             </div>               
