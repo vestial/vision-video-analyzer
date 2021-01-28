@@ -1,3 +1,4 @@
+# Get the rating and recommendation based on the video resolution.
 def get_resolution_recommendation(video):
     rating = ""
     recommendation = ""

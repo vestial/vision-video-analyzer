@@ -1,3 +1,4 @@
+# Helper function to get the bit depth recommendation based on frame rate and resolution
 def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
                     low_fps_minimum, low_fps_maximum):
     rating = ""
@@ -29,6 +30,7 @@ def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
     return (rating, recommendation, recommended)
 
 
+# Get the rating and recommendation based on the video bit rate. The values are based on Youtube's recommended upload settings.
 def get_bit_rate_recommendation(video):
     result = ()
     frame_rate = "high" if video.frame_rate > 30 else "standard"

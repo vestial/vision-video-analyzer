@@ -1,3 +1,4 @@
+# Get the rating and recommendation based on the video frame rate.
 def get_frame_rate_recommendation(video):
     rating = ""
     recommendation = ""

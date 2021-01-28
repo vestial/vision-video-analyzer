@@ -1,8 +1,9 @@
+# Get the rating and recommendation based on the audio sample rate.
 def get_sample_rate_recommendation(video):
     rating = ""
     recommendation = ""
     sample_rate = float(video.sample_rate)
-    if sample_rate >= 44.1 and sample_rate <= 48:  #Between 1080p and 4k
+    if sample_rate >= 44.1 and sample_rate <= 48:
         rating = "Great!"
         recommendation = "Great audio sample rate!"
     elif sample_rate > 48:
