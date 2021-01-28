@@ -1,3 +1,4 @@
+from main.utils.feedback.sample_rate import get_sample_rate_recommendation
 from main.utils.feedback.bit_depth import get_bit_depth_recommendation
 from main.utils.feedback.bit_rate import get_bit_rate_recommendation
 from main.utils.feedback.frame_rate import get_frame_rate_recommendation
@@ -37,8 +38,11 @@ def analyze_video(video, uploaded_file):
     video.bit_depth_recommendation = get_bit_depth_recommendation(video)[1]
     video.bit_depth_recommended = "8 - 12 bits"
 
-    video.bit_depth = get_bit_depth(uploaded_file)
     video.sample_rate = get_sample_rate(uploaded_file)
+    video.sample_rate_rating = get_sample_rate_recommendation(video)[0]
+    video.sample_rate_recommendation = get_sample_rate_recommendation(video)[1]
+    video.sample_rate_recommended = "44.1 kHz - 48.0 kHz"
+
     video.video_length = get_video_length(uploaded_file)
 
 
