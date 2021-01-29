@@ -1,11 +1,15 @@
+import os
 import matplotlib.pyplot as plt
+from vision_video_analyzer.settings import MEDIA_ROOT
+
+visualizations = f'{MEDIA_ROOT}/visualizations'
 
 
 # Get the rating and recommendation based on the video frame rate.
 def get_frame_rate_recommendation(video):
     rating = ""
     recommendation = ""
-    get_frame_rate_boxplot(video.frame_rate)
+    get_frame_rate_boxplot(video, video.frame_rate)
     if video.frame_rate < 24:
         rating = "Bad"
         recommendation = "Your frame rate is too low. Please increase it to at least 24 fps by changing the settings in your camera."
@@ -23,7 +27,9 @@ def get_frame_rate_recommendation(video):
     return (rating, recommendation)
 
 
-def get_frame_rate_boxplot(current_frame_rate):
+def get_frame_rate_boxplot(video, current_frame_rate):
+
+    visualization_output_path = f'{visualizations}/{video}/'
     fig, ax = plt.subplots()
     boxes = [{
         'label': "Frame rate",
@@ -35,5 +41,7 @@ def get_frame_rate_boxplot(current_frame_rate):
     }]
     ax.bxp(boxes, showfliers=False)
     ax.set_ylabel("Frames per second (fps)")
-    plt.savefig("frame_rate_visual_png")
+    if os.path.isdir(visualization_output_path) == False:
+        os.mkdir(visualization_output_path)
+    plt.savefig(f'{visualizations}/{video}/frame_rate')
     plt.close()

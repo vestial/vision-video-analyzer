@@ -27,6 +27,8 @@ def home(response):
         os.mkdir('media/videos')
     if os.path.isdir('./media/shots') == False:
         os.mkdir('media/shots')
+    if os.path.isdir('./media/visualizations') == False:
+        os.mkdir('media/visualizations')
 
     #Checks the validity of video upload
     if response.method == "POST":
