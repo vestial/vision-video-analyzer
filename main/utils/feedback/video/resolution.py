@@ -41,7 +41,8 @@ def get_resolution_boxplot(video, current_resolution):
         'whishi': 4320,  # Top whisker position
     }]
     ax.bxp(boxes, showfliers=False, vert=False, positions=[0])
-    plt.yticks([0], ['Resolution height (pixels)'])
+    plt.yticks([0], ['Video resolution'])
+    plt.xlabel('Resolution height (pixels)')
     if os.path.isdir(visualization_output_path) == False:
         os.mkdir(visualization_output_path)
     plt.tight_layout()

@@ -41,7 +41,8 @@ def get_frame_rate_boxplot(video, current_frame_rate):
         'whishi': 120,  # Top whisker position
     }]
     ax.bxp(boxes, showfliers=False, vert=False, positions=[0])
-    plt.yticks([0], ['Frames per second (fps)'])
+    plt.yticks([0], ['Frame rate'])
+    plt.xlabel('Frames per second (fps)')
     if os.path.isdir(visualization_output_path) == False:
         os.mkdir(visualization_output_path)
     plt.tight_layout()
