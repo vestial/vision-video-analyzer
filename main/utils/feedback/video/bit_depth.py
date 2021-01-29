@@ -32,7 +32,7 @@ def get_bit_depth_boxplot(video, current_bit_depth):
     fig, ax = plt.subplots(figsize=(5, 2), dpi=100)
 
     boxes = [{
-        'label': "Frame rate",
+        'label': "Bit depth",
         'whislo': 8,  # Bottom whisker position
         'q1': 10,  # First quartile (25th percentile)
         'med': current_bit_depth,  # Median         (50th percentile)
