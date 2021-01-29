@@ -12,7 +12,7 @@ def get_frame_rate_recommendation(video):
     get_frame_rate_boxplot(video, video.frame_rate)
     if video.frame_rate < 24:
         rating = "Bad"
-        recommendation = "Your frame rate is too low. Please increase it to at least 24 fps by changing the settings in your camera."
+        recommendation = "Your frame rate is low. Please increase it to at least 24 fps by changing the settings in your camera."
     elif video.frame_rate >= 24 and video.frame_rate < 30:
         rating = "Good"
         recommendation = "Your frame rate is good. You can increase it to 60 fps if you wish to capture fast moving footages or use slow motion effects."
