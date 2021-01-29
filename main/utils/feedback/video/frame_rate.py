@@ -30,7 +30,8 @@ def get_frame_rate_recommendation(video):
 def get_frame_rate_boxplot(video, current_frame_rate):
 
     visualization_output_path = f'{visualizations}/{video}/'
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(5, 2), dpi=100)
+
     boxes = [{
         'label': "Frame rate",
         'whislo': 24,  # Bottom whisker position
@@ -39,9 +40,10 @@ def get_frame_rate_boxplot(video, current_frame_rate):
         'q3': 60,  # Third quartile (75th percentile)
         'whishi': 120,  # Top whisker position
     }]
-    ax.bxp(boxes, showfliers=False)
-    ax.set_ylabel("Frames per second (fps)")
+    ax.bxp(boxes, showfliers=False, vert=False, positions=[0])
+    plt.yticks([0], ['Frames per second (fps)'])
     if os.path.isdir(visualization_output_path) == False:
         os.mkdir(visualization_output_path)
+    plt.tight_layout()
     plt.savefig(f'{visualizations}/{video}/frame_rate')
     plt.close()
