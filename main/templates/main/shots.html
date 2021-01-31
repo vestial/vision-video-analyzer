@@ -32,10 +32,10 @@ Your video
       <h5>Resolution: {{video.resolution}}</h5>
       {#<h5>Shutter speed: {{video.shutter_speed}}</h5 > #}
       <h5>Frame rate: {{video.frame_rate}} fps</h5>
-      <h5>Bit rate: {{video.bit_rate}}</h5>
-      <h5>Bit depth: {{video.bit_depth}}</h5>
-      <h5>Sample rate: {{video.sample_rate}}</h5>
-      <h5>Video length: {{video.video_length}}</h5>
+      <h5>Bit rate: {{video.bit_rate}} Mbps</h5>
+      <h5>Bit depth: {{video.bit_depth}} bits</h5>
+      <h5>Sample rate: {{video.sample_rate}} kHz</h5>
+      <h5>Video length: {{video.video_length}} seconds</h5>
       <hr/>
       <a class="btn btn-danger" role="button" href="{% url 'video' video.id %}">Return</a>
     </div>
