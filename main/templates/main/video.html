@@ -28,13 +28,13 @@ Your video
     <div class="col-3">
       <h4>Summary</h4>
       <hr/>
-      <h5>Resolution: {{video.resolution}}</h5>
+      <h5>Resolution: {{video.resolution}} <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></h5>
       {#<h5>Shutter speed: {{video.shutter_speed}}</h5 > #}
-      <h5>Video frame rate: {{video.frame_rate}} fps</h5>
-      <h5>Bit rate: {{video.bit_rate}} Mbps</h5>
-      <h5>Bit depth: {{video.bit_depth}} bits</h5>
-      <h5>Sample rate: {{video.sample_rate}} kHz</h5>
-      <h5>Video length: {{video.video_length}} seconds</h5>
+      <h5>Video frame rate: {{video.frame_rate}} fps <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></h5>
+      <h5>Bit rate: {{video.bit_rate}} Mbps <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></h5>
+      <h5>Bit depth: {{video.bit_depth}} bits <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></h5>
+      <h5>Sample rate: {{video.sample_rate}} kHz <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></h5>
+      <h5>Video length: {{video.video_length}} seconds <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></h5>
       <hr/>
       <form action="{% url 'shots' video.id%}" method="POST">
         {% csrf_token %} 

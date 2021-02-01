@@ -59,10 +59,10 @@ Your video
         <img src="{{MEDIA_URL}}/media/shots/{{video}}/screenshots/{{ screenshot }}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Shot {{ forloop.counter }}</h5>
-          <div class="card-text"><div class="font-weight-bold">Exposure:</div> {{ exposure }}</div>
-          <div class="card-text"><div class="font-weight-bold">Length:</div> {{ length }} seconds</div>
-          <div class="card-text"><div class="font-weight-bold">Contrast:</div> {{ contrast }} (RMS)</div>
-          <div class="card-text"><div class="font-weight-bold">Background:</div> {{ background }} (RGB)</div>
+          <div class="card-text"><div class="font-weight-bold">Exposure <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></div> {{ exposure }}</div>
+          <div class="card-text"><div class="font-weight-bold">Length <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></div> {{ length }} seconds</div>
+          <div class="card-text"><div class="font-weight-bold">Contrast <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></div> {{ contrast }} (RMS)</div>
+          <div class="card-text"><div class="font-weight-bold">Background <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></i></div> {{ background }} (RGB)</div>
           <button type="button" data-toggle="modal" data-target="#shotDetailsModal-{{forloop.counter}}" class="btn btn-primary mt-2">View details</button>
         </div>
       </div>
