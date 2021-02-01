@@ -16,7 +16,7 @@ def celery_analyze_shots(video):
     contrasts = celery_chain.parent.parent.get()
     backgrounds = celery_chain.parent.get()
     screenshots = celery_chain.get()
-    recommendations = get_shot_recommendation(exposures, shot_lengths,
+    recommendations = get_shot_recommendation(video, exposures, shot_lengths,
                                               contrasts, backgrounds)
     result = [
         exposures, shot_lengths, contrasts, backgrounds, screenshots,
