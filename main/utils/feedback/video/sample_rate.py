@@ -1,4 +1,6 @@
 import os
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 import matplotlib.pyplot as plt
 from vision_video_analyzer.settings import MEDIA_ROOT
 
@@ -36,11 +38,26 @@ def get_sample_rate_boxplot(video, current_sample_rate):
         'q3': 48,  # Third quartile (75th percentile)
         'whishi': 96,  # Top whisker position
     }]
-    ax.bxp(boxes, showfliers=False, vert=False, positions=[0])
+    ax.bxp(boxes,
+           showfliers=False,
+           vert=False,
+           positions=[0],
+           patch_artist=True,
+           medianprops=dict(color='red', linewidth=2),
+           boxprops=dict(facecolor='none'))
     plt.yticks([0], ['Sample rate'])
-    plt.xlabel('kHz')
+    plt.xlabel('Samples per second (kHz)')
+    legend_elements = [
+        Line2D([0], [0], color='red', lw=2, label='Current sample rate'),
+        Patch(facecolor='white',
+              edgecolor='grey',
+              linewidth=1,
+              label='Optimal threshold')
+    ]
+    ax.legend(handles=legend_elements)
+
+    plt.tight_layout()
     if os.path.isdir(visualization_output_path) == False:
         os.mkdir(visualization_output_path)
-    plt.tight_layout()
     plt.savefig(f'{visualizations}/{video}/sample_rate')
     plt.close()

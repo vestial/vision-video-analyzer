@@ -1,4 +1,6 @@
 import os
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 import matplotlib.pyplot as plt
 from vision_video_analyzer.settings import MEDIA_ROOT
 
@@ -39,11 +41,26 @@ def get_bit_depth_boxplot(video, current_bit_depth):
         'q3': 12,  # Third quartile (75th percentile)
         'whishi': 24,  # Top whisker position
     }]
-    ax.bxp(boxes, showfliers=False, vert=False, positions=[0])
+    ax.bxp(boxes,
+           showfliers=False,
+           vert=False,
+           positions=[0],
+           patch_artist=True,
+           medianprops=dict(color='red', linewidth=2),
+           boxprops=dict(facecolor='none'))
     plt.yticks([0], ['Bit depth'])
     plt.xlabel('Bits')
+    legend_elements = [
+        Line2D([0], [0], color='red', lw=2, label='Current bit depth'),
+        Patch(facecolor='white',
+              edgecolor='grey',
+              linewidth=1,
+              label='Optimal threshold')
+    ]
+    ax.legend(handles=legend_elements)
+
+    plt.tight_layout()
     if os.path.isdir(visualization_output_path) == False:
         os.mkdir(visualization_output_path)
-    plt.tight_layout()
     plt.savefig(f'{visualizations}/{video}/bit_depth')
     plt.close()

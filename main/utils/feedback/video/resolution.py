@@ -1,5 +1,7 @@
 import os
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
 from vision_video_analyzer.settings import MEDIA_ROOT
 
 visualizations = f'{MEDIA_ROOT}/visualizations'
@@ -40,11 +42,26 @@ def get_resolution_boxplot(video, current_resolution):
         'q3': 2160,  # Third quartile (75th percentile)
         'whishi': 4320,  # Top whisker position
     }]
-    ax.bxp(boxes, showfliers=False, vert=False, positions=[0])
+    ax.bxp(boxes,
+           showfliers=False,
+           vert=False,
+           positions=[0],
+           patch_artist=True,
+           medianprops=dict(color='red', linewidth=2),
+           boxprops=dict(facecolor='none'))
     plt.yticks([0], ['Video resolution'])
     plt.xlabel('Resolution height (pixels)')
+    legend_elements = [
+        Line2D([0], [0], color='red', lw=2, label='Current Resolution'),
+        Patch(facecolor='white',
+              edgecolor='grey',
+              linewidth=1,
+              label='Optimal threshold')
+    ]
+    ax.legend(handles=legend_elements)
+
+    plt.tight_layout()
     if os.path.isdir(visualization_output_path) == False:
         os.mkdir(visualization_output_path)
-    plt.tight_layout()
     plt.savefig(f'{visualizations}/{video}/resolution')
     plt.close()
