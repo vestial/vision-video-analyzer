@@ -14,6 +14,7 @@ import csv
 
 logger = get_task_logger(__name__)
 shots = f'{MEDIA_ROOT}/shots'
+visualizations = f'{MEDIA_ROOT}/visualizations'
 mpl.use('agg')
 
 
@@ -22,10 +23,12 @@ mpl.use('agg')
 def get_exposure_histogram(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
     histogram_output_path = f'{shots}/{video}/histograms/'
+    visualization_output_path = f'{visualizations}/{video}/exposures/'
     if os.path.isdir(histogram_output_path) == False:
         os.mkdir(histogram_output_path)
     logger.info("Calculating histogram")
     exposures = []
+    i = 1
     for filename in sorted(os.listdir(shots_output_path)):
         img = cv2.imread(os.path.join(shots_output_path, filename))
         if img is not None:
@@ -46,13 +49,18 @@ def get_exposure_histogram(video):
                 exposures.append("overexposed")
             else:
                 exposures.append("normal")
-            figure = plt.figure()
+            figure = plt.figure(figsize=(5, 2))
             plt.title("Grayscale Histogram")
             plt.xlabel("Bins")
             plt.ylabel("# of Pixels")
             plt.plot(hist)
             plt.xlim([0, 256])
-            plt.savefig(histogram_output_path + filename)
+            plt.tight_layout()
+            if os.path.isdir(visualization_output_path) == False:
+                os.mkdir(visualization_output_path)
+            if filename.endswith("-02.jpg"):
+                plt.savefig(f'{visualizations}/{video}/exposures/{i}')
+                i = i + 1
             figure.clear()
             plt.close(figure)
             logger.info(filename + " Histogram calculated")
