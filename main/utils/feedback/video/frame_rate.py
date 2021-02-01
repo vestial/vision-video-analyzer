@@ -59,7 +59,6 @@ def get_frame_rate_boxplot(video, current_frame_rate):
               label='Optimal threshold')
     ]
     ax.legend(handles=legend_elements)
-
     plt.tight_layout()
     if os.path.isdir(visualization_output_path) == False:
         os.mkdir(visualization_output_path)

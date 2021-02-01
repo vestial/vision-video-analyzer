@@ -52,7 +52,7 @@ def get_resolution_boxplot(video, current_resolution):
     plt.yticks([0], ['Video resolution'])
     plt.xlabel('Resolution height (pixels)')
     legend_elements = [
-        Line2D([0], [0], color='red', lw=2, label='Current Resolution'),
+        Line2D([0], [0], color='red', lw=2, label='Current resolution'),
         Patch(facecolor='white',
               edgecolor='grey',
               linewidth=1,
