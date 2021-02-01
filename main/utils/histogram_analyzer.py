@@ -22,10 +22,7 @@ mpl.use('agg')
 @shared_task
 def get_exposure_histogram(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
-    histogram_output_path = f'{shots}/{video}/histograms/'
     visualization_output_path = f'{visualizations}/{video}/exposures/'
-    if os.path.isdir(histogram_output_path) == False:
-        os.mkdir(histogram_output_path)
     logger.info("Calculating histogram")
     exposures = []
     i = 1
@@ -71,7 +68,6 @@ def get_exposure_histogram(video):
 def determine_exposures(exposures):
     result = []
     temp = set()
-    print("Preeeeeeeeeeeeeee")
     print(exposures)
     for i in range(len(exposures)):
         if (i % 3 == 0 and i != 0) or i == len(exposures) - 1:
