@@ -11,7 +11,8 @@ def get_shot_recommendation(video, exposures, shot_lengths, contrasts,
     exposure_recommendation = get_exposure_recommendation_wrapper(exposures)
     shot_length_recommendation = get_shot_length_recommendation_wrapper(
         video, shot_lengths)
-    contrast_recommendation = get_contrast_recommendation_wrapper(contrasts)
+    contrast_recommendation = get_contrast_recommendation_wrapper(
+        video, contrasts)
     background_recommendation = get_background_recommendation_wrapper(
         backgrounds)
 
