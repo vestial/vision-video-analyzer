@@ -49,7 +49,7 @@ class BackgroundColorDetector():
                                     self.total_pixels)
         #print(self.percentage_of_first)
         color = f'{self.number_counter[0][0][0]}, {self.number_counter[0][0][1]}, {self.number_counter[0][0][2]}'
-        if self.percentage_of_first > 0.5:
+        if self.percentage_of_first > 0.8:
             print("Background color for " + self.name + " is",
                   self.number_counter[0][0])
         else:

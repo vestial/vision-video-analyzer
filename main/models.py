@@ -27,6 +27,10 @@ class Video(models.Model):
                                          blank=True,
                                          null=True,
                                          default="Unknown")
+    resolution_recommended = models.CharField(max_length=64,
+                                              blank=True,
+                                              null=True,
+                                              default="Unknown")
     resolution_recommendation = models.TextField(
         blank=True, null=True, default="No recommendation available.")
 
@@ -44,6 +48,10 @@ class Video(models.Model):
                                          blank=True,
                                          null=True,
                                          default="Unknown")
+    frame_rate_recommended = models.CharField(max_length=64,
+                                              blank=True,
+                                              null=True,
+                                              default="Unknown")
     frame_rate_recommendation = models.TextField(
         blank=True, null=True, default="No recommendation available.")
 
@@ -56,6 +64,10 @@ class Video(models.Model):
                                        blank=True,
                                        null=True,
                                        default="Unknown")
+    bit_rate_recommended = models.CharField(max_length=64,
+                                            blank=True,
+                                            null=True,
+                                            default="Unknown")
     bit_rate_recommendation = models.TextField(
         blank=True, null=True, default="No recommendation available.")
 
@@ -68,6 +80,10 @@ class Video(models.Model):
                                         blank=True,
                                         null=True,
                                         default="Unknown")
+    bit_depth_recommended = models.CharField(max_length=64,
+                                             blank=True,
+                                             null=True,
+                                             default="Unknown")
     bit_depth_recommendation = models.TextField(
         blank=True, null=True, default="No recommendation available.")
 
@@ -80,6 +96,10 @@ class Video(models.Model):
                                           blank=True,
                                           null=True,
                                           default="Unknown")
+    sample_rate_recommended = models.CharField(max_length=64,
+                                               blank=True,
+                                               null=True,
+                                               default="Unknown")
     sample_rate_recommendation = models.TextField(
         blank=True, null=True, default="No recommendation available.")
 
@@ -92,6 +112,10 @@ class Video(models.Model):
                                            blank=True,
                                            null=True,
                                            default="Unknown")
+    video_length_recommended = models.CharField(max_length=64,
+                                                blank=True,
+                                                null=True,
+                                                default="Unknown")
     video_length_recommendation = models.TextField(
         blank=True, null=True, default="No recommendation available.")
 

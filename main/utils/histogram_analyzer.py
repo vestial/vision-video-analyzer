@@ -14,6 +14,7 @@ import csv
 
 logger = get_task_logger(__name__)
 shots = f'{MEDIA_ROOT}/shots'
+visualizations = f'{MEDIA_ROOT}/visualizations'
 mpl.use('agg')
 
 
@@ -21,11 +22,10 @@ mpl.use('agg')
 @shared_task
 def get_exposure_histogram(video):
     shots_output_path = f'{shots}/{video}/screenshots/'
-    histogram_output_path = f'{shots}/{video}/histograms/'
-    if os.path.isdir(histogram_output_path) == False:
-        os.mkdir(histogram_output_path)
+    visualization_output_path = f'{visualizations}/{video}/exposures/'
     logger.info("Calculating histogram")
     exposures = []
+    i = 1
     for filename in sorted(os.listdir(shots_output_path)):
         img = cv2.imread(os.path.join(shots_output_path, filename))
         if img is not None:
@@ -46,13 +46,18 @@ def get_exposure_histogram(video):
                 exposures.append("overexposed")
             else:
                 exposures.append("normal")
-            figure = plt.figure()
+            figure = plt.figure(figsize=(5, 2))
             plt.title("Grayscale Histogram")
             plt.xlabel("Bins")
             plt.ylabel("# of Pixels")
             plt.plot(hist)
             plt.xlim([0, 256])
-            plt.savefig(histogram_output_path + filename)
+            plt.tight_layout()
+            if os.path.isdir(visualization_output_path) == False:
+                os.mkdir(visualization_output_path)
+            if filename.endswith("-02.jpg"):
+                plt.savefig(f'{visualizations}/{video}/exposures/{i}')
+                i = i + 1
             figure.clear()
             plt.close(figure)
             logger.info(filename + " Histogram calculated")
@@ -63,9 +68,10 @@ def get_exposure_histogram(video):
 def determine_exposures(exposures):
     result = []
     temp = set()
+    print(exposures)
     for i in range(len(exposures)):
         if (i % 3 == 0 and i != 0) or i == len(exposures) - 1:
-            if "underexposed" and "overexposed" in temp:
+            if "underexposed" in temp and "overexposed" in temp:
                 result.append(parse_exposure("both"))
             elif "underexposed" in temp:
                 result.append(parse_exposure("underexposed"))
@@ -82,7 +88,7 @@ def determine_exposures(exposures):
 # Convert raw exposure into proper text for users to understand
 def parse_exposure(exposure):
     if (exposure == "both"):
-        return "The shot is both over- and underexposed!"
+        return "Some part of the shot is underexposed and another part is overexposed!"
     elif (exposure == "underexposed"):
         return "Shot is underexposed!"
     elif (exposure == "overexposed"):
