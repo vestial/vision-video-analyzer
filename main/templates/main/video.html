@@ -28,13 +28,13 @@ Your video
     <div class="col-3">
       <h4>Summary</h4>
       <hr/>
-      <h5>Resolution: {{video.resolution}}</h5>
+      <h5>Resolution: {{video.resolution}} <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of distinct pixels in each dimension &#013;that can be displayed by the video."></i></h5>
       {#<h5>Shutter speed: {{video.shutter_speed}}</h5 > #}
-      <h5>Frame rate: {{video.frame_rate}} fps</h5>
-      <h5>Bit rate: {{video.bit_rate}}</h5>
-      <h5>Bit depth: {{video.bit_depth}}</h5>
-      <h5>Sample rate: {{video.sample_rate}}</h5>
-      <h5>Video length: {{video.video_length}}</h5>
+      <h5>Frame rate: {{video.frame_rate}} fps <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of frames per &#013;second of the video."></i></h5>
+      <h5>Bit rate: {{video.bit_rate}} Mbps <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of bits that are processed by &#013;the video per second. It is measured &#013;in Megabits per second. "></i></h5>
+      <h5>Bit depth: {{video.bit_depth}} bits <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of bits used to indicate &#013;the color of a single pixel."></i></h5>
+      <h5>Sample rate: {{video.sample_rate}} kHz <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of times a sound &#013;is sampled per second. It &#013;is measured in kilohertz."></i></h5>
+      <h5>Video length: {{video.video_length}} seconds <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="The length of the video."></i></h5>
       <hr/>
       <form action="{% url 'shots' video.id%}" method="POST">
         {% csrf_token %} 
@@ -61,8 +61,8 @@ Your video
       <hr/>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
+  <div class="row d-flex flex-column">
+    <div class="col pb-3">
       <h4><strong>Resolution</strong></h4>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Video value: </strong></h6>
@@ -70,7 +70,7 @@ Your video
       </div>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Recommended value: </strong></h6>
-        <h6>1920 x 1080</h6>
+        <h6>{{video.resolution_recommended}}</h6>
       </div>
       <div class="row px-3"> 
         <h6 class="pr-2"><strong>Rating: </strong></h6>
@@ -78,8 +78,144 @@ Your video
       </div>
       <div class="row"> 
         <div class="col">
-          <h6 class="pr-2"><strong>Suggestions: </strong></h6>
+          <h6 class="pr-2"><strong>Feedback: </strong></h6>
           <h6>{{video.resolution_recommendation}}</h6>
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Visualization: </strong></h6>
+          <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/resolution.png"/>
+        </div>
+      </div>
+    </div>
+    <span>
+    <div class="col pb-3">
+      <h4><strong>Video frame rate</strong></h4>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Video value: </strong></h6>
+        <h6>{{video.frame_rate}} fps</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+        <h6>{{video.frame_rate_recommended}}</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Rating: </strong></h6>
+        <h6>{{video.frame_rate_rating}}</h6>
+      </div>      
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Feedback: </strong></h6>
+          <h6>{{video.frame_rate_recommendation}}</h6>
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Visualization: </strong></h6>
+          <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/frame_rate.png"/>
+        </div>
+      </div>
+    </div>
+    <div class="col pb-3">
+      <h4><strong>Bit rate</strong></h4>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Video value: </strong></h6>
+        <h6>{{video.bit_rate}} mbps</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+        <h6>{{video.bit_rate_recommended}}</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Rating: </strong></h6>
+        <h6>{{video.bit_rate_rating}}</h6>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Feedback: </strong></h6>
+          <h6>{{video.bit_rate_recommendation}}</h6>
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Visualization: </strong></h6>
+          <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/bit_rate.png"/>
+        </div>
+      </div>
+    </div>
+    <div class="col pb-3">
+      <h4><strong>Bit depth</strong></h4>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Video value: </strong></h6>
+        <h6>{{video.bit_depth}} bits</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+        <h6>{{video.bit_depth_recommended}}</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Rating: </strong></h6>
+        <h6>{{video.bit_depth_rating}}</h6>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Feedback: </strong></h6>
+          <h6>{{video.bit_depth_recommendation}}</h6>
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Visualization: </strong></h6>
+          <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/bit_depth.png"/>
+        </div>
+      </div>
+    </div>
+    <div class="col pb-3">
+      <h4><strong>Sample rate</strong></h4>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Video value: </strong></h6>
+        <h6>{{video.sample_rate}} kHz</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+        <h6>{{video.sample_rate_recommended}}</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Rating: </strong></h6>
+        <h6>{{video.sample_rate_rating}}</h6>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Feedback: </strong></h6>
+          <h6>{{video.sample_rate_recommendation}}</h6>
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Visualization: </strong></h6>
+          <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/sample_rate.png"/>
+        </div>
+      </div>
+    </div>
+    <div class="col pb-3">
+      <h4><strong>Video length</strong></h4>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Video value: </strong></h6>
+        <h6>{{video.video_length}} seconds</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+        <h6>{{video.video_length_recommended}}</h6>
+      </div>
+      <div class="row px-3"> 
+        <h6 class="pr-2"><strong>Rating: </strong></h6>
+        <h6>{{video.video_length_rating}}</h6>
+      </div>
+      <div class="row"> 
+        <div class="col">
+          <h6 class="pr-2"><strong>Feedback: </strong></h6>
+          <h6>{{video.video_length_recommendation}}</h6>
         </div>
       </div>
     </div>

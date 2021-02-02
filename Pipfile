@@ -18,6 +18,9 @@ celery = "*"
 redis = "*"
 celery-progress = "*"
 uwsgi = "*"
+pytesseract = "*"
+pillow = "*"
+matplotlib = "*"
 
 [requires]
 python_version = "3.7"

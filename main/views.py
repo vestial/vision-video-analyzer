@@ -27,6 +27,8 @@ def home(response):
         os.mkdir('media/videos')
     if os.path.isdir('./media/shots') == False:
         os.mkdir('media/shots')
+    if os.path.isdir('./media/visualizations') == False:
+        os.mkdir('media/visualizations')
 
     #Checks the validity of video upload
     if response.method == "POST":
@@ -108,23 +110,29 @@ def shots(response, id):
     vid = Video.objects.filter(id=id).first()
     video = str(vid.video)
     shots_output_path = f'{MEDIA_ROOT}/shots/{vid.name}/'
+    shot_exposures = []
     shot_lengths = []
     shot_contrasts = []
     shot_background_colors = []
     shot_screenshots = []
+    shot_recommendations = []
     if response.method == "POST" and os.path.isdir('./media/shots/' +
                                                    str(vid)) == False:
         print("Analyzing shots")
         result = celery_analyze_shots(video)
-        shot_lengths = result[0]
-        shot_contrasts = result[1]
-        shot_background_colors = result[2]
-        shot_screenshots = result[3]
+        shot_exposures = result[0]
+        shot_lengths = result[1]
+        shot_contrasts = result[2]
+        shot_background_colors = result[3]
+        shot_screenshots = result[4]
+        shot_recommendations = result[5]
         data_set = {
+            "exposures": shot_exposures,
             "lengths": shot_lengths,
             "contrasts": shot_contrasts,
             "backgrounds": shot_background_colors,
-            "screenshots": shot_screenshots
+            "screenshots": shot_screenshots,
+            "recommendations": shot_recommendations
         }
         with open(os.path.join(shots_output_path, vid.name + ".json"),
                   'w') as json_file:
@@ -133,6 +141,8 @@ def shots(response, id):
         with open(os.path.join(shots_output_path, vid.name + ".json"),
                   'r') as json_file:
             data = json.load(json_file)
+            for exposure in data['exposures']:
+                shot_exposures.append(exposure)
             for length in data['lengths']:
                 shot_lengths.append(length)
             for contrast in data['contrasts']:
@@ -141,11 +151,13 @@ def shots(response, id):
                 shot_background_colors.append(background)
             for screenshot in data['screenshots']:
                 shot_screenshots.append(screenshot)
+            for recommendation in data['recommendations']:
+                shot_recommendations.append(recommendation)
     context = {
         "video":
         vid,
         "data":
-        zip(shot_lengths, shot_contrasts, shot_background_colors,
-            shot_screenshots)
+        zip(shot_exposures, shot_lengths, shot_contrasts,
+            shot_background_colors, shot_screenshots, shot_recommendations)
     }
     return render(response, "main/shots.html", context)

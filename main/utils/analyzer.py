@@ -1,3 +1,9 @@
+from main.utils.feedback.video.video_length import get_video_length_recommendation
+from main.utils.feedback.video.sample_rate import get_sample_rate_recommendation
+from main.utils.feedback.video.bit_depth import get_bit_depth_recommendation
+from main.utils.feedback.video.bit_rate import get_bit_rate_recommendation
+from main.utils.feedback.video.frame_rate import get_frame_rate_recommendation
+from main.utils.feedback.video.resolution import get_resolution_recommendation
 from pymediainfo import MediaInfo
 from vision_video_analyzer.settings import MEDIA_ROOT
 from main.utils.background import BackgroundColorDetector
@@ -12,20 +18,37 @@ shots = f'{MEDIA_ROOT}/shots'
 # Wrapper for the analysis getters
 def analyze_video(video, uploaded_file):
     video.thumbnail = get_thumbnail(uploaded_file)
-    print("Thumbnail analyzed")
+
     video.resolution = get_resolution(uploaded_file)
-    print("Resolution analyzed")
-    #video.shutter_speed = get_shutter_speed(uploaded_file)
+    video.resolution_rating = get_resolution_recommendation(video)[0]
+    video.resolution_recommendation = get_resolution_recommendation(video)[1]
+    video.resolution_recommended = "1920x1080 (1080p) up to 3840x2160 (4K)"
+
     video.frame_rate = get_frame_rate(uploaded_file)
-    print("Frame rate analyzed")
+    video.frame_rate_rating = get_frame_rate_recommendation(video)[0]
+    video.frame_rate_recommendation = get_frame_rate_recommendation(video)[1]
+    video.frame_rate_recommended = "24 - 60 fps"
+
     video.bit_rate = get_bit_rate(uploaded_file)
-    print("Bit rate analyzed")
+    video.bit_rate_rating = get_bit_rate_recommendation(video)[0]
+    video.bit_rate_recommendation = get_bit_rate_recommendation(video)[1]
+    video.bit_rate_recommended = get_bit_rate_recommendation(video)[2]
+
     video.bit_depth = get_bit_depth(uploaded_file)
-    print("Bit depth analyzed")
+    video.bit_depth_rating = get_bit_depth_recommendation(video)[0]
+    video.bit_depth_recommendation = get_bit_depth_recommendation(video)[1]
+    video.bit_depth_recommended = "8 - 12 bits"
+
     video.sample_rate = get_sample_rate(uploaded_file)
-    print("Sample rate analyzed")
+    video.sample_rate_rating = get_sample_rate_recommendation(video)[0]
+    video.sample_rate_recommendation = get_sample_rate_recommendation(video)[1]
+    video.sample_rate_recommended = "44.1 kHz - 48.0 kHz"
+
     video.video_length = get_video_length(uploaded_file)
-    print("Video length analyzed")
+    video.video_length_rating = get_video_length_recommendation(video)[0]
+    video.video_length_recommendation = get_video_length_recommendation(
+        video)[1]
+    video.video_length_recommended = "Up to 5 minutes"
 
 
 # Use ffmpeg to get the thumbnail
@@ -70,7 +93,7 @@ def get_resolution(video):
     return resolution.stdout
 
 
-# Get fps from ffprobe in frame/sec format. Rounded to make it look better
+# Get video fps from ffprobe in frame/sec format. Rounded to make it look better
 def get_frame_rate(video):
     video_input_path = f'{videos}/{video}'
     frame_rate = subprocess.run([
@@ -89,24 +112,20 @@ def get_frame_rate(video):
     return rounded_fps
 
 
-# Get bit rate from ffprobe and format it to kbps
+# Get video bit rate using MediaInfo and format it to mbps
 def get_bit_rate(video):
     video_input_path = f'{videos}/{video}'
-    bit_rate = subprocess.run(
-        ['exiftool', '-s', '-s', '-s', '-avgBitrate', video_input_path],
-        capture_output=True,
-        text=True,
-        input="Y")
-
-    return bit_rate.stdout
+    media_info = MediaInfo.parse(video_input_path)
+    bit_rate = media_info.video_tracks[0].bit_rate
+    return str(np.round(np.divide(int(bit_rate), 1000000), 1))
 
 
-# Get bit depth using MediaInfo
+# Get video bit depth using MediaInfo
 def get_bit_depth(video):
     video_input_path = f'{videos}/{video}'
     media_info = MediaInfo.parse(video_input_path)
     bit_depth = media_info.video_tracks[0].bit_depth
-    return str(bit_depth) + " bits"
+    return bit_depth
 
 
 # Get sample rate using ffprobe and convert to kHz
@@ -119,8 +138,10 @@ def get_sample_rate(video):
                                  capture_output=True,
                                  text=True,
                                  input="Y")
-    rounded_sample_rate = str(
-        np.round(np.divide(int(sample_rate.stdout), 1000))) + " kHz"
+
+    if not sample_rate.stdout:
+        return "Unknown"
+    rounded_sample_rate = np.round(np.divide(int(sample_rate.stdout), 1000))
     return rounded_sample_rate
 
 
@@ -134,6 +155,5 @@ def get_video_length(video):
                                   capture_output=True,
                                   text=True,
                                   input="Y")
-    rounded_video_length = str(int(np.round(float(
-        video_length.stdout)))) + " seconds"
+    rounded_video_length = int(np.round(float(video_length.stdout)))
     return rounded_video_length

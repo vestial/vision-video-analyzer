@@ -29,13 +29,13 @@ Your video
     <div class="col-3">
       <h4>Summary</h4>
       <hr/>
-      <h5>Resolution: {{video.resolution}}</h5>
+      <h5>Resolution: {{video.resolution}} <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of distinct pixels in each dimension &#013;that can be displayed by the video."></i></h5>
       {#<h5>Shutter speed: {{video.shutter_speed}}</h5 > #}
-      <h5>Frame rate: {{video.frame_rate}} fps</h5>
-      <h5>Bit rate: {{video.bit_rate}}</h5>
-      <h5>Bit depth: {{video.bit_depth}}</h5>
-      <h5>Sample rate: {{video.sample_rate}}</h5>
-      <h5>Video length: {{video.video_length}}</h5>
+      <h5>Frame rate: {{video.frame_rate}} fps <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of frames per &#013;second of the video."></i></h5>
+      <h5>Bit rate: {{video.bit_rate}} Mbps <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of bits that are processed by &#013;the video per second. It is measured &#013;in Megabits per second. "></i></h5>
+      <h5>Bit depth: {{video.bit_depth}} bits <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of bits used to indicate &#013;the color of a single pixel."></i></h5>
+      <h5>Sample rate: {{video.sample_rate}} kHz <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Number of times a sound &#013;is sampled per second. It &#013;is measured in kilohertz."></i></h5>
+      <h5>Video length: {{video.video_length}} seconds <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="The length of the video."></i></h5>
       <hr/>
       <a class="btn btn-danger" role="button" href="{% url 'video' video.id %}">Return</a>
     </div>
@@ -53,18 +53,137 @@ Your video
       </div>
     </div>
     <div class="row mt-4 ml-2">
-    {%for length, contrast, background, screenshot in data %}
+    {%for exposure, length, contrast, background, screenshot, recommendation in data %}
     <div class="card-deck">
       <div class="card mx-4 mb-4" style="width: 16rem;">
         <img src="{{MEDIA_URL}}/media/shots/{{video}}/screenshots/{{ screenshot }}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Shot {{ forloop.counter }}</h5>
-          <div class="card-text"><div class="font-weight-bold">Length:</div> {{ length }} seconds</div>
-          <div class="card-text"><div class="font-weight-bold">Contrast:</div> {{ contrast }} (RMS)</div>
-          <div class="card-text"><div class="font-weight-bold">Background:</div> {{ background }} (RGB)</div>
+          <div class="card-text"><div class="font-weight-bold">Exposure <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Measures the overall brightness or darkness &#013;of a photograph. Overexposed is too bright, &#013;while underexposed is too dark."></i></div> {{ exposure }}</div>
+          <div class="card-text"><div class="font-weight-bold">Length <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="The duration of the shot."></i></div> {{ length }} seconds</div>
+          <div class="card-text"><div class="font-weight-bold">Contrast <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Measures the difference in luminance &#013;or color that makes the pixels &#013;distinguishable. Measured in standard &#013;deviation of pixel intensities (RMS)."></i></div> {{ contrast }} (RMS)</div>
+          <div class="card-text"><div class="font-weight-bold">Background <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="The average background color &#013;of the shot. Measured in RGB. "></i></div> {{ background }} (RGB)</div>
+          <button type="button" data-toggle="modal" data-target="#shotDetailsModal-{{forloop.counter}}" class="btn btn-primary mt-2">View details</button>
         </div>
       </div>
     </div>
+    <div class="modal fade" id="shotDetailsModal-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="shotDetailsModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Shot {{ forloop.counter }} details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="column container-fluid">
+              <div class="col pb-3">
+                <h4><strong>Exposure</strong></h4>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Shot value: </strong></h6>
+                  <h6>{{exposure}}</h6>
+                </div>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+                  <h6>{{recommendation.0.0}}</h6>
+                </div>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Rating: </strong></h6>
+                  <h6>{{recommendation.0.1}}</h6>
+                </div>
+                <div class="row"> 
+                  <div class="col">
+                    <h6 class="pr-2"><strong>Feedback: </strong></h6>
+                    <h6>{{recommendation.0.2}}</h6>
+                  </div>
+                </div>
+                <div class="row"> 
+                  <div class="col">
+                    <h6 class="pr-2"><strong>Visualization: </strong></h6>
+                    <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/exposures/{{ forloop.counter }}.png"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col pb-3">
+                <h4><strong>Shot length</strong></h4>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Shot value: </strong></h6>
+                  <h6>{{length}}</h6>
+                </div>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+                  <h6>{{recommendation.1.0}}</h6>
+                </div>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Rating: </strong></h6>
+                  <h6>{{recommendation.1.1}}</h6>
+                </div>
+                <div class="row"> 
+                  <div class="col">
+                    <h6 class="pr-2"><strong>Feedback: </strong></h6>
+                    <h6>{{recommendation.1.2}}</h6>
+                  </div>
+                </div>
+                <div class="row"> 
+                  <div class="col">
+                    <h6 class="pr-2"><strong>Visualization: </strong></h6>
+                    <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/lengths/{{ forloop.counter }}.png"/>
+                  </div>
+                </div>
+              </div>   
+              <div class="col pb-3">
+                <h4><strong>Contrast</strong></h4>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Shot value: </strong></h6>
+                  <h6>{{contrast}}</h6>
+                </div>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+                  <h6>{{recommendation.2.0}}</h6>
+                </div>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Rating: </strong></h6>
+                  <h6>{{recommendation.2.1}}</h6>
+                </div>
+                <div class="row"> 
+                  <div class="col">
+                    <h6 class="pr-2"><strong>Feedback: </strong></h6>
+                    <h6>{{recommendation.2.2}}</h6>
+                  </div>
+                </div>
+                <div class="row"> 
+                  <div class="col">
+                    <h6 class="pr-2"><strong>Visualization: </strong></h6>
+                    <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/contrasts/{{ forloop.counter }}.png"/>
+                  </div>
+                </div>
+              </div>   
+              <div class="col pb-3">
+                <h4><strong>Background color</strong></h4>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Shot value: </strong></h6>
+                  <h6>{{background}}</h6>
+                </div>
+                <div class="row px-3"> 
+                  <h6 class="pr-2"><strong>Recommended value: </strong></h6>
+                  <h6>{{recommendation.3.0}}</h6>
+                </div>
+                <div class="row"> 
+                  <div class="col">
+                    <h6 class="pr-2"><strong>Shot average background color: </strong></h6>
+                    <img src="{{MEDIA_URL}}/media/visualizations/{{video}}/backgrounds/{{ forloop.counter }}.png"/>
+                  </div>
+                </div>
+              </div>
+            </div>               
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>    
     {% endfor %}
   </div>
 </div>
