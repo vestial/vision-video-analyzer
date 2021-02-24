@@ -202,11 +202,9 @@ def get_threshold(video):
         i += 1
     border_thresholds = []
     for border in pruned_borders:
-        border_thresholds.append(border[2])
+        if border[2] >= threshold:
+            border_thresholds.append(border[2])
     logger.info(border_thresholds)
-    del border_thresholds[
-        1::
-        2]  #Prune odd content_val to prevent absolute negative del_content_val inclusion
     threshold = min(border_thresholds)
     logger.info(border_thresholds)
     logger.info("Threshold set: " + str(threshold))
