@@ -29,9 +29,9 @@ def get_background_recommendation(background):
     feedback = ""
 
     color_range = [
-        ([150, 0, 0], [255, 50, 50]),  #Red
-        ([200, 200, 0], [255, 255, 50]),  #Yellow
-        ([0, 200, 0], [50, 255, 50]),  #Bright green
+        ([150, 0, 0], [255, 150, 150]),  #Red
+        ([200, 200, 0], [255, 255, 150]),  #Yellow
+        ([0, 150, 0], [150, 255, 150]),  #Bright green
     ]
     strong_color = False
     if background[0] >= color_range[0][0][0] and background[0] <= color_range[
