@@ -10,11 +10,9 @@ Home
     <li class="breadcrumb-item active" aria-current="page">Home</li>
   </ol>
 </nav>
-<h2>Placeholder</h2>
 {% if user.is_authenticated %}
-<h5>Hello, {{ user.username }}.</h5>
+<div class="alert alert-primary">You are logged in as {{ user.username }}.</div>
 
-<br>
 <h2>Upload a video</h2>
 <form method="post" enctype="multipart/form-data">
 {% csrf_token %}
@@ -24,7 +22,8 @@ Home
   </div>
 <button class="btn btn-success" type="submit">Upload</button>
 </form>
-
+{% else %}
+<h4>Please <a href="/login">log in</a> or <a href="/register">register</a> to use the video analyzer.</h4>
 {% if messages %}
     {% for message in messages %} 
     <br>
