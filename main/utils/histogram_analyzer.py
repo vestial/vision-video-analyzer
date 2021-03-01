@@ -150,7 +150,7 @@ def get_threshold(video):
     change_vals = []
     raw_change_vals = []
     borders = []
-    threshold = 30  #Default ContentDetector threshold value
+    default_threshold = 30  #Default ContentDetector threshold value
     window_size = int(
         get_frame_rate(video))  #Window size to check validity of border
     #Get only the absolute content_val changes from the generated csv
@@ -162,7 +162,7 @@ def get_threshold(video):
             if line_count < 2:
                 line_count += 1
                 continue
-            elif float(row[3]) > threshold:
+            elif float(row[3]) > default_threshold:
                 borders.append((int(row[0]), float(row[3]), float(row[1])))
             change_vals.append((int(row[0]), float(row[3])))
             raw_change_vals.append(float(row[3]))
@@ -202,10 +202,10 @@ def get_threshold(video):
         i += 1
     border_thresholds = []
     for border in pruned_borders:
-        if border[2] >= threshold:
+        if border[2] >= default_threshold:
             border_thresholds.append(border[2])
     logger.info(border_thresholds)
-    threshold = min(border_thresholds)
+    threshold = min(border_thresholds, default=default_threshold)
     logger.info(border_thresholds)
     logger.info("Threshold set: " + str(threshold))
     return threshold
