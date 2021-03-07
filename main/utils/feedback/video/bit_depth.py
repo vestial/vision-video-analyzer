@@ -17,11 +17,11 @@ def get_bit_depth_recommendation(video):
         rating = "Great!"
         recommendation = "Great video bit depth!"
     elif bit_depth >= 8 and bit_depth < 10:
-        rating = "Good"
-        recommendation = "Your bit depth is good enough. However, consider increasing bit/color depth to 10 or 12 bits to increase the range of possible displayed colors."
+        rating = "Okay"
+        recommendation = "Your bit depth is good enough. However, consider increasing bit/color depth to 10 or 12 bits to increase the range of possible displayed colors and enable usage of HDR video technology."
     elif bit_depth > 12:
-        rating = "Good"
-        recommendation = "Your bit depth is very high. You may want to lower it to 10 or 12 bits to save data and bandwidth."
+        rating = "Unknown"
+        recommendation = "Your bit depth is very high. You may want to lower it to 10 or 12 bits to save data and bandwidth. It is unknown if increasing bit depth above 12 bits increases the perceptible quality of vision videos."
     else:
         rating = "Bad"
         recommendation = "Your bit depth is too low. Try to increase it to at least 8 bits, in order to display a wider range of possible colors"
