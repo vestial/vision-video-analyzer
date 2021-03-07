@@ -22,8 +22,6 @@ Home
   </div>
 <button class="btn btn-success" type="submit">Upload</button>
 </form>
-{% else %}
-<h4>Please <a href="/login">log in</a> or <a href="/register">register</a> to use the video analyzer.</h4>
 {% if messages %}
     {% for message in messages %} 
     <br>
@@ -32,6 +30,9 @@ Home
     </div>
     {% endfor %}
 {% endif %}
+{% else %}
+<h4>Please <a href="/login">log in</a> or <a href="/register">register</a> to use the video analyzer.</h4>
+
 
 {% endif %}
 
