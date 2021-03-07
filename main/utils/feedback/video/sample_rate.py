@@ -13,12 +13,12 @@ def get_sample_rate_recommendation(video):
     recommendation = ""
     sample_rate = float(video.sample_rate)
     get_sample_rate_boxplot(video, sample_rate)
-    if sample_rate >= 44.1 and sample_rate <= 48:
+    if sample_rate >= 44.1 and sample_rate <= 88.2:
         rating = "Great!"
         recommendation = "Great audio sample rate!"
-    elif sample_rate > 48:
-        rating = "Good"
-        recommendation = "Good sample rate. However, audio sample rate above 48.0 kHz has diminishing returns. Try lowering it to 48.0 kHz to minimize data usage"
+    elif sample_rate > 88.2:
+        rating = "Okay"
+        recommendation = "Good sample rate. However, audio sample rate above 88.2 kHz has diminishing returns. Try lowering it to 88.2 kHz to minimize data usage"
     else:
         rating = "Bad"
         recommendation = "Your sample rate is too low. Try increasing it to at least 44.1 kHz to prevent sound distortion."
@@ -35,7 +35,7 @@ def get_sample_rate_boxplot(video, current_sample_rate):
         'whislo': 44.1,  # Bottom whisker position
         'q1': 44.1,  # First quartile (25th percentile)
         'med': current_sample_rate,  # Median         (50th percentile)
-        'q3': 48,  # Third quartile (75th percentile)
+        'q3': 88.2,  # Third quartile (75th percentile)
         'whishi': 96,  # Top whisker position
     }]
     ax.bxp(boxes,
