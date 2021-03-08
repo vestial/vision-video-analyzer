@@ -26,6 +26,7 @@ def get_resolution_recommendation(video):
     return (rating, recommendation)
 
 
+#Generate boxplot based on the provided values by using Matplotlib
 def get_resolution_boxplot(video, current_resolution):
 
     visualization_output_path = f'{visualizations}/{video}/'

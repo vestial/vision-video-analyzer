@@ -30,6 +30,7 @@ def get_frame_rate_recommendation(video):
     return (rating, recommendation)
 
 
+#Generate boxplot based on the provided values by using Matplotlib
 def get_frame_rate_boxplot(video, current_frame_rate):
 
     visualization_output_path = f'{visualizations}/{video}/'

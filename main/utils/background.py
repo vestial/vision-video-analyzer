@@ -4,6 +4,7 @@ import numpy as np
 from collections import Counter
 
 
+#Detects the background color by finding the most frequent rgb color. The main algorithm is from Daniel Parker at https://medium.com/generalist-dev/background-colour-detection-using-opencv-and-python-22ed8655b243.
 class BackgroundColorDetector():
     def __init__(self, imageLoc, fileName):
         self.img = cv2.imread(imageLoc, 1)
@@ -12,6 +13,7 @@ class BackgroundColorDetector():
         self.total_pixels = self.w * self.h
         self.name = fileName
 
+    #Counts the color in an image
     def count(self):
         for y in range(0, self.h):
             for x in range(0, self.w):
@@ -21,6 +23,7 @@ class BackgroundColorDetector():
                 else:
                     self.manual_count[RGB] = 1
 
+    #Get the average color of the most frequent sample
     def average_colour(self):
         red = 0
         green = 0
@@ -47,7 +50,6 @@ class BackgroundColorDetector():
         self.twenty_most_common()
         self.percentage_of_first = (float(self.number_counter[0][1]) /
                                     self.total_pixels)
-        #print(self.percentage_of_first)
         color = f'{self.number_counter[0][0][0]}, {self.number_counter[0][0][1]}, {self.number_counter[0][0][2]}'
         if self.percentage_of_first > 0.8:
             print("Background color for " + self.name + " is",

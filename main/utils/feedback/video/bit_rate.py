@@ -74,6 +74,7 @@ def get_bit_rate_recommendation(video):
     return result
 
 
+#Generate boxplot based on the provided values by using Matplotlib
 def get_bit_rate_boxplot(video, current_bit_rate, high_bit_rate, low_bit_rate,
                          max_bit_rate, min_bit_rate):
 
