@@ -16,19 +16,21 @@ def get_frame_rate_recommendation(video):
         rating = "Bad"
         recommendation = "Your frame rate is low. Please increase it to at least 24 fps by changing the settings in your camera."
     elif video.frame_rate >= 24 and video.frame_rate < 30:
-        rating = "Good"
+        rating = "Great!"
         recommendation = "Your frame rate is good. You can increase it to 60 fps if you wish to capture fast moving footages or use slow motion effects."
     elif video.frame_rate <= 60:
         rating = "Great!"
-        recommendation = "Great frame rate!"
+        recommendation = "s Great frame rate! You can lower it to 24 fps if you want a more cinematic video look."
     elif video.frame_rate > 60:
-        rating = "Unknown"
-        recommendation = "Your frame rate might be too high. Please lower it to 30 or 24 fps if you do not use any slow motion effects."
+        rating = "Bad"
+        recommendation = "Your frame rate might be too high. Please lower it to at least 60 fps since such a high frame rate is unlikely needed for vision videos and has a diminishing return."
     else:
+        rating = "Unknown"
         recommendation = "Please set your frame rate to 24, 25, 30, or 60 FPS for a standard frame rate."
     return (rating, recommendation)
 
 
+#Generate boxplot based on the provided values by using Matplotlib
 def get_frame_rate_boxplot(video, current_frame_rate):
 
     visualization_output_path = f'{visualizations}/{video}/'
@@ -37,7 +39,7 @@ def get_frame_rate_boxplot(video, current_frame_rate):
     boxes = [{
         'label': "Frame rate",
         'whislo': 24,  # Bottom whisker position
-        'q1': 30,  # First quartile (25th percentile)
+        'q1': 24,  # First quartile (25th percentile)
         'med': current_frame_rate,  # Median         (50th percentile)
         'q3': 60,  # Third quartile (75th percentile)
         'whishi': 120,  # Top whisker position

@@ -1,4 +1,7 @@
 import os
+import numpy as np
+import argparse
+import cv2
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 import matplotlib.pyplot as plt
@@ -25,16 +28,53 @@ def get_background_recommendation(background):
     rating = ""
     feedback = ""
 
+    color_range = [
+        ([150, 0, 0], [255, 150, 150]),  #Red
+        ([200, 200, 0], [255, 255, 150]),  #Yellow
+        ([0, 150, 0], [150, 255, 150]),  #Bright green
+        ([0, 0, 0], [20, 20, 20]),  #Black
+    ]
+    strong_color = False
+    if background[0] >= color_range[0][0][0] and background[0] <= color_range[
+            0][1][0]:
+        if background[1] >= color_range[0][0][1] and background[
+                1] <= color_range[0][1][1]:
+            if background[2] >= color_range[0][0][2] and background[
+                    2] <= color_range[0][1][2]:
+                rating = "Too red!"
+                feedback = "Please avoid using red as a background color to not distract the audience and to not modify apparent color of the subject."
+                strong_color = True
+    if background[0] >= color_range[1][0][0] and background[0] <= color_range[
+            1][1][0]:
+        if background[1] >= color_range[1][0][1] and background[
+                1] <= color_range[1][1][1]:
+            if background[2] >= color_range[1][0][2] and background[
+                    2] <= color_range[1][1][2]:
+                rating = "Too yellow!"
+                feedback = "Please avoid using yellow as a background color to not distract the audience and to not modify apparent color of the subject."
+                strong_color = True
+    if background[0] >= color_range[2][0][0] and background[0] <= color_range[
+            2][1][0]:
+        if background[1] >= color_range[2][0][1] and background[
+                1] <= color_range[2][1][1]:
+            if background[2] >= color_range[2][0][2] and background[
+                    2] <= color_range[2][1][2]:
+                rating = "Too bright green!"
+                feedback = "Please avoid using bright green as a background color to not distract the audience and to not modify apparent color of the subject."
+                strong_color = True
+    if background[0] >= color_range[3][0][0] and background[0] <= color_range[
+            3][1][0]:
+        if background[1] >= color_range[3][0][1] and background[
+                1] <= color_range[3][1][1]:
+            if background[2] >= color_range[3][0][2] and background[
+                    2] <= color_range[3][1][2]:
+                rating = "Too dark!"
+                feedback = "Please avoid using black as a background color to not distract the audience and to not modify apparent color of the subject."
+                strong_color = True
+    if strong_color is False:
+        rating = "Normal background color."
+        feedback = "Your background color is normal and is neither strong red, yellow, bright green, nor black."
     return [recommended, rating, feedback]
-
-
-def color_picker(rgb):
-    result = ""
-    if rgb[0] <= 255 and rgb[0] >= 200 and rgb[1] <= 50 and rgb[
-            2] <= 50:  #Bright red
-        result = "red"
-
-    return result
 
 
 def get_background_visualization(video, i, current_background):

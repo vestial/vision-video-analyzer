@@ -24,10 +24,10 @@ def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
             recommendation = "Great bit rate!"
         elif bit_rate > high_fps_maximum:
             rating = "Okay"
-            recommendation = "Your bit rate might be too high. Try increasing the resolution, increasing the fps or reducing the bit rate."
+            recommendation = f'Your bit rate might be too high. Please reduce it to at least {high_fps_maximum} Mbps.'
         else:
             rating = "Bad"
-            recommendation = f'Your bit rate is too low. Please increase it to at least {high_fps_minimum} Mbps'
+            recommendation = f'Your bit rate is too low. Please increase it to at least {high_fps_minimum} Mbps.'
     else:
         recommended = f'{low_fps_minimum} Mbps up to {low_fps_maximum} Mbps'
         get_bit_rate_boxplot(video, bit_rate, low_fps_maximum, low_fps_minimum,
@@ -37,7 +37,7 @@ def bit_rate_helper(video, frame_rate, high_fps_minimum, high_fps_maximum,
             recommendation = "Great bit rate!"
         elif bit_rate > low_fps_maximum:
             rating = "Okay"
-            recommendation = "Your bit rate might be too high. Try increasing the resolution, increasing the fps or reducing the bit rate."
+            recommendation = f'Your bit rate might be too high. Please reduce it to at least {low_fps_maximum} Mbps.'
         else:
             rating = "Bad"
             recommendation = f'Your bit rate is too low. Please increase it to at least {low_fps_minimum} Mbps'
@@ -74,6 +74,7 @@ def get_bit_rate_recommendation(video):
     return result
 
 
+#Generate boxplot based on the provided values by using Matplotlib
 def get_bit_rate_boxplot(video, current_bit_rate, high_bit_rate, low_bit_rate,
                          max_bit_rate, min_bit_rate):
 

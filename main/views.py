@@ -97,6 +97,8 @@ def delete(request, id):
                 os.remove('./media/thumbnails/' + str(vid) + ".png")
             if (os.path.isdir('./media/shots/' + str(vid)) == True):
                 shutil.rmtree('./media/shots/' + str(vid))
+            if (os.path.isdir('./media/visualizations/' + str(vid)) == True):
+                shutil.rmtree('./media/visualizations/' + str(vid))
         vid.delete()
         return HttpResponseRedirect("/videos")
     return render(request, "main/delete.html", context)
