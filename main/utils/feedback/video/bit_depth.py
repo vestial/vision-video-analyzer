@@ -28,6 +28,7 @@ def get_bit_depth_recommendation(video):
     return (rating, recommendation)
 
 
+#Generate boxplot based on the provided values by using Matplotlib
 def get_bit_depth_boxplot(video, current_bit_depth):
 
     visualization_output_path = f'{visualizations}/{video}/'
